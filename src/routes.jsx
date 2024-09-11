@@ -110,6 +110,7 @@ const routes = [
         path: '/sample-page',
         element: lazy(() => import('./views/extra/SamplePage'))
       },
+      
       {
         path: '*',
         exact: 'true',
