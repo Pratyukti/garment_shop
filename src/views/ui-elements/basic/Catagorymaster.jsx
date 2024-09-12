@@ -227,7 +227,7 @@ export default function SimplePaper() {
   return (
     <Box sx={{ maxWidth: '100%', padding: 2 }}>
       {/* Add Category Button */}
-      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+      <Button variant="contained" color="secondary" onClick={handleClickOpen}>
         {editIndex !== null ? 'Edit Category' : 'Add Category'}
       </Button>
 
@@ -235,7 +235,7 @@ export default function SimplePaper() {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{editIndex !== null ? 'Edit Category Details' : 'Add Category Details'}</DialogTitle>
         <DialogContent>
-          <Paper sx={{ padding: "10px" }}>
+          <Paper sx={{ padding: "10px" , backgroundColor: "#f4ebfe"}}>
             <form>
               <TextField
                 fullWidth
@@ -269,10 +269,10 @@ export default function SimplePaper() {
           </Paper>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleClose} color="error">
             Cancel
           </Button>
-          <Button onClick={handleAddOrUpdate} color="primary" disabled={loading.add}>
+          <Button onClick={handleAddOrUpdate} color="secondary" disabled={loading.add}>
             {loading.add ? <CircularProgress size={24} /> : editIndex !== null ? 'Update' : 'Add'}
           </Button>
         </DialogActions>

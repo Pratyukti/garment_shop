@@ -210,13 +210,23 @@ const routes = [
       },
       {
         exact: 'true',
-        path: '/basic/tabs-pills',
-        element: lazy(() => import('./views/ui-elements/basic/BasicTabsPills'))
+        path: '/basic/partydetails',
+        element: lazy(() => import('./views/ui-elements/basic/Partydetails'))
       },
       {
         exact: 'true',
-        path: '/basic/typography',
-        element: lazy(() => import('./views/ui-elements/basic/BasicTypography'))
+        path: '/basic/taxdetails',
+        element: lazy(() => import('./views/ui-elements/basic/Taxdetails'))
+      },
+      {
+        exact: 'true',
+        path: '/basic/userdetails',
+        element: lazy(() => import('./views/ui-elements/basic/Userdetails'))
+      },
+      {
+        exact: 'true',
+        path: '/basic/financialyeardetails',
+        element: lazy(() => import('./views/ui-elements/basic/Financialyeardetails'))
       },
       {
         exact: 'true',
