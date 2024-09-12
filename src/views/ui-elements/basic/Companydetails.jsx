@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, CircularProgress } from '@mui/material';
+import { TextField, Button, Box, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@mui/material';
+import { Edit, Delete } from '@mui/icons-material';
 
-const Companydetails = () => {
+export default function SimplePaper() {
   const [companyDetails, setCompanyDetails] = useState({
     company_name: '',
-    gst:'',
+    gst: '',
     phone_number: '',
     email: '',
     address: ''
   });
 
-  const [loading, setLoading] = useState({
-    add: false,
-    save: false,
-    update: false,
-    delete: false
-  });
+  const [companyList, setCompanyList] = useState([]);  // List to hold all company entries
+  const [loading, setLoading] = useState({ add: false });
+  const [open, setOpen] = useState(false);  // State to control dialog visibility
+  const [editIndex, setEditIndex] = useState(null); // Track index of the company being edited
 
   const handleChange = (e) => {
     setCompanyDetails({
@@ -24,142 +23,159 @@ const Companydetails = () => {
     });
   };
 
-  const handleAdd = async (e) => {
+  const handleClickOpen = () => {
+    setOpen(true);  // Open the dialog when "Add" button is clicked
+    setEditIndex(null); // Reset the edit index
+  };
+
+  const handleClose = () => {
+    setOpen(false);  // Close the dialog when "Cancel" button is clicked
+  };
+
+  const handleAddOrUpdate = async (e) => {
     e.preventDefault();
     setLoading({ ...loading, add: true });
-    // Simulate add logic with delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Added", companyDetails);
+
+    if (editIndex !== null) {
+      // Update logic
+      const updatedList = [...companyList];
+      updatedList[editIndex] = companyDetails;
+      setCompanyList(updatedList);
+      console.log("Updated", companyDetails);
+    } else {
+      // Add logic
+      setCompanyList([...companyList, companyDetails]);
+      console.log("Added", companyDetails);
+    }
+
+    // Reset the form and state
     setLoading({ ...loading, add: false });
+    setCompanyDetails({
+      company_name: '',
+      gst: '',
+      phone_number: '',
+      email: '',
+      address: ''
+    });
+    setOpen(false);  // Close the dialog after adding or updating
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading({ ...loading, save: true });
-    // Simulate save logic with delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Saved", companyDetails);
-    setLoading({ ...loading, save: false });
+  const handleEdit = (index) => {
+    setCompanyDetails(companyList[index]);  // Populate form with the selected company's details
+    setEditIndex(index);  // Set the index of the company being edited
+    setOpen(true);  // Open the dialog to edit
   };
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    setLoading({ ...loading, update: true });
-    // Simulate update logic with delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Updated", companyDetails);
-    setLoading({ ...loading, update: false });
-  };
-
-  const handleDelete = async (e) => {
-    e.preventDefault();
-    setLoading({ ...loading, delete: true });
-    // Simulate delete logic with delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Deleted", companyDetails);
-    setLoading({ ...loading, delete: false });
+  const handleDelete = (index) => {
+    const updatedList = companyList.filter((_, i) => i !== index);  // Remove the selected company
+    setCompanyList(updatedList);
+    console.log("Deleted company at index", index);
   };
 
   return (
-    <Box 
-      sx={{ 
-        maxWidth: '100%', 
-        padding: 2, 
-        backgroundColor: '#eeeaef',  // Light background color
-        borderRadius: 2,
-        boxShadow: 1,
-      }}
-    >
-      <form>
-        <TextField
-          fullWidth
-          label="Company Name"
-          name="company_name"
-          value={companyDetails.company_name}
-          onChange={handleChange}
-          margin="normal"
-          required
-        />
-        <TextField
-          fullWidth
-          label="Company Registration Number/GST Number"
-          name="gst"
-          value={companyDetails.gst}
-          onChange={handleChange}
-          margin="normal"
-          required
-        />
-        <TextField
-          fullWidth
-          label="Phone Number"
-          name="phone_number"
-          value={companyDetails.phone_number}
-          onChange={handleChange}
-          margin="normal"
-        />
-        <TextField
-          fullWidth
-          label="Email"
-          name="email"
-          value={companyDetails.email}
-          onChange={handleChange}
-          margin="normal"
-        />
-        <TextField
-          fullWidth
-          multiline
-          rows={4}
-          label="Address"
-          name="address"
-          value={companyDetails.address}
-          onChange={handleChange}
-          margin="normal"
-        />
+    <Box sx={{ maxWidth: '100%', padding: 2 }}>
+      {/* Add Company Button */}
+      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+        {editIndex !== null ? 'Edit Company' : 'Add Company'}
+      </Button>
 
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ backgroundColor: 'blue' }}
-            onClick={handleAdd}
-            disabled={loading.add}  // Disable button when loading
-          >
-            {loading.add ? <CircularProgress size={24} /> : "Add"}
+      {/* Dialog (Popup) Form */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>{editIndex !== null ? 'Edit Company Details' : 'Add Company Details'}</DialogTitle>
+        <DialogContent>
+          <Paper sx={{ padding: "10px" }}>
+            <form>
+              <TextField
+                fullWidth
+                label="Company Name"
+                name="company_name"
+                value={companyDetails.company_name}
+                onChange={handleChange}
+                margin="normal"
+                required
+              />
+              <TextField
+                fullWidth
+                label="Company Registration Number/GST Number"
+                name="gst"
+                value={companyDetails.gst}
+                onChange={handleChange}
+                margin="normal"
+                required
+              />
+              <TextField
+                fullWidth
+                label="Phone Number"
+                name="phone_number"
+                value={companyDetails.phone_number}
+                onChange={handleChange}
+                margin="normal"
+              />
+              <TextField
+                fullWidth
+                label="Email"
+                name="email"
+                value={companyDetails.email}
+                onChange={handleChange}
+                margin="normal"
+              />
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                label="Address"
+                name="address"
+                value={companyDetails.address}
+                onChange={handleChange}
+                margin="normal"
+              />
+            </form>
+          </Paper>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            Cancel
           </Button>
-          
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ backgroundColor: 'sky' }}
-            onClick={handleSubmit}
-            disabled={loading.save}  // Disable button when loading
-          >
-            {loading.save ? <CircularProgress size={24} /> : "Save"}
+          <Button onClick={handleAddOrUpdate} color="primary" disabled={loading.add}>
+            {loading.add ? <CircularProgress size={24} /> : editIndex !== null ? 'Update' : 'Add'}
           </Button>
-          
-          <Button
-            variant="contained"
-            color="success"
-            sx={{ backgroundColor: 'green' }}
-            onClick={handleUpdate}
-            disabled={loading.update}  // Disable button when loading
-          >
-            {loading.update ? <CircularProgress size={24} /> : "Update"}
-          </Button>
-          
-          <Button
-            variant="contained"
-            color="error"
-            sx={{ backgroundColor: 'red' }}
-            onClick={handleDelete}
-            disabled={loading.delete}  // Disable button when loading
-          >
-            {loading.delete ? <CircularProgress size={24} /> : "Delete"}
-          </Button>
-        </Box>
-      </form>
+        </DialogActions>
+      </Dialog>
+
+      {/* Table to Display Company Details */}
+      <TableContainer component={Paper} sx={{ marginTop: 3 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Company Name</TableCell>
+              <TableCell>GST</TableCell>
+              <TableCell>Phone</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Address</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {companyList.map((company, index) => (
+              <TableRow key={index}>
+                <TableCell>{company.company_name}</TableCell>
+                <TableCell>{company.gst}</TableCell>
+                <TableCell>{company.phone_number}</TableCell>
+                <TableCell>{company.email}</TableCell>
+                <TableCell>{company.address}</TableCell>
+                <TableCell>
+                  <IconButton color="primary" onClick={() => handleEdit(index)}>
+                    <Edit />
+                  </IconButton>
+                  <IconButton color="secondary" onClick={() => handleDelete(index)}>
+                    <Delete />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   );
-};
-
-export default Companydetails;
+}

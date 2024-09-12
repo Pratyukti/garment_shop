@@ -263,49 +263,49 @@ const menuItems = {
           children: [
             {
               id: 'button',
-              title: 'Company Master',
+              title: 'Company Details',
               type: 'item',
               url: '/basic/Companydetails'
             },
             {
               id: 'badges',
-              title: 'Category Master',
+              title: 'Category Details',
               type: 'item',
               url: '/basic/catagorymaster'
             },
             {
               id: 'breadcrumb',
-              title: 'Item Master',
+              title: 'Item Details',
               type: 'item',
-              url: '/basic/breadcrumb-paging'
+              url: '/basic/itemmaster'
             },
             {
               id: 'breadcrumb',
-              title: 'Design Master',
+              title: 'Design Details',
               type: 'item',
-              url: '/basic/breadcrumb-paging'
+              url: '/basic/designdetails'
             },
             {
               id: 'collapse',
-              title: 'Party Master',
+              title: 'Party Details',
               type: 'item',
               url: '/basic/collapse'
             },
             {
               id: 'tabs-pills',
-              title: 'Tax Master',
+              title: 'Tax Details',
               type: 'item',
               url: '/basic/tabs-pills'
             },
             {
               id: 'typography',
-              title: 'User Master',
+              title: 'User Details',
               type: 'item',
               url: '/basic/typography'
             },
             {
               id: 'typography',
-              title: 'Financial Year Master',
+              title: 'Financial Year Details',
               type: 'item',
               url: '/basic/typography'
             }

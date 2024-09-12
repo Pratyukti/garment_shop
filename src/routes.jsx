@@ -200,13 +200,13 @@ const routes = [
       },
       {
         exact: 'true',
-        path: '/basic/breadcrumb-paging',
-        element: lazy(() => import('./views/ui-elements/basic/BasicBreadcrumb'))
+        path: '/basic/itemmaster',
+        element: lazy(() => import('./views/ui-elements/basic/Itemmaster'))
       },
       {
         exact: 'true',
-        path: '/basic/collapse',
-        element: lazy(() => import('./views/ui-elements/basic/BasicCollapse'))
+        path: '/basic/designdetails',
+        element: lazy(() => import('./views/ui-elements/basic/Designdetails'))
       },
       {
         exact: 'true',
