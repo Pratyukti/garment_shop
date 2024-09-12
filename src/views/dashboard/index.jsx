@@ -135,7 +135,7 @@ const DashDefault = () => {
             </Col>
           );
         })}
-        <Col md={6} xl={8}>
+        {/* <Col md={6} xl={8}>
           <Card className="Recent-Users widget-focus-lg">
             <Card.Header>
               <Card.Title as="h5">Recent Users</Card.Title>
@@ -261,8 +261,8 @@ const DashDefault = () => {
               </Table>
             </Card.Body>
           </Card>
-        </Col>
-        <Col md={6} xl={4}>
+        </Col> */}
+        {/* <Col md={6} xl={4}>
           <Card className="card-event">
             <Card.Body>
               <div className="row align-items-center justify-content-center">
@@ -579,7 +579,7 @@ const DashDefault = () => {
               </Tab>
             </Tabs>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
     </React.Fragment>
   );
