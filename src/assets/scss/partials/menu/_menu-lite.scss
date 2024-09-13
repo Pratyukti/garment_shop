@@ -5,7 +5,7 @@
   align-items: center;
 
   .b-bg {
-    background: $theme-color;
+    background: $theme-color3;
     border-radius: 10px;
     width: 35px;
     height: 35px;
@@ -21,7 +21,7 @@
   .b-title {
     margin-left: 10px;
     font-weight: 100;
-    color: #fff;
+    color: $purple-color;     //for title
     font-size: 18px;
   }
 }
@@ -98,7 +98,7 @@
     color: $header-light-text-color;
 
     &:hover {
-      color: $primary-color;
+      color: $purple-color;
     }
   }
 
@@ -195,8 +195,8 @@
         .search-btn {
           padding: 5px;
           margin-left: 5px;
-          background: $primary-color;
-          border-color: $primary-color;
+          background: $purple-color;   //for search button
+          border-color: $purple-color;  // for search button
 
           .input-group-text {
             color: #fff;
@@ -1046,7 +1046,7 @@
       &.active,
       &:focus,
       &:hover {
-        color: #1dc4e9;
+        color: $purple-color;  //color for hover
       }
 
       .pcoded-submenu > li {
@@ -1055,7 +1055,7 @@
         &:hover {
           > a {
             &:before {
-              background: #1dc4e9;
+              background: $purple-color  //color for hover effecct
             }
           }
         }

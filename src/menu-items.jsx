@@ -290,25 +290,25 @@ const menuItems = {
               id: 'collapse',
               title: 'Party Details',
               type: 'item',
-              url: '/basic/collapse'
+              url: '/basic/partydetails'
             },
             {
               id: 'tabs-pills',
               title: 'Tax Details',
               type: 'item',
-              url: '/basic/tabs-pills'
+              url: '/basic/taxdetails'
             },
             {
               id: 'typography',
               title: 'User Details',
               type: 'item',
-              url: '/basic/typography'
+              url: '/basic/userdetails'
             },
             {
               id: 'typography',
               title: 'Financial Year Details',
               type: 'item',
-              url: '/basic/typography'
+              url: '/basic/financialyeardetails'
             }
           ]
         }

@@ -1,37 +1,35 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import {
+  TextField,Button,Box,CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, MenuItem, Select, InputLabel, FormControl
+} from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 
-export default function Itemmaster() {
-  const [itemDetails, setItemDetails] = useState({
-    item_name: '',
-    item_code: '',
-    category: '',
-    hsn_code: '',
-    unit_price: '',
-    stock_quantity: '',
+export default function PartyReport() {
+  const [partyDetails, setPartyDetails] = useState({
+    party_name: '',
+    party_reg_no: '',
+    party_type: '',
+    phone: '',
+    email: '',
+    address: '',
     description: ''
   });
 
-  const [itemList, setItemList] = useState([]); // List to hold all item entries
-  const [categories] = useState([
-    { id: 1, name: 'Electronics' },
-    { id: 2, name: 'Furniture' },
-    { id: 3, name: 'Stationery' }
-  ]); // Example categories
+  const [partyList, setPartyList] = useState([]); // List to hold all party entries
   const [loading, setLoading] = useState({ add: false });
   const [open, setOpen] = useState(false); // State to control dialog visibility
-  const [editIndex, setEditIndex] = useState(null); // Track index of the item being edited
+  const [editIndex, setEditIndex] = useState(null); // Track index of the party being edited
 
   const handleChange = (e) => {
-    setItemDetails({
-      ...itemDetails,
+    setPartyDetails({
+      ...partyDetails,
       [e.target.name]: e.target.value
     });
   };
 
   const handleClickOpen = () => {
-    setOpen(true); // Open the dialog when "Add Item" button is clicked
+    setOpen(true); // Open the dialog when "Add Party" button is clicked
     setEditIndex(null); // Reset the edit index
   };
 
@@ -45,121 +43,135 @@ export default function Itemmaster() {
 
     if (editIndex !== null) {
       // Update logic
-      const updatedList = [...itemList];
-      updatedList[editIndex] = itemDetails;
-      setItemList(updatedList);
-      console.log("Updated", itemDetails);
+      const updatedList = [...partyList];
+      updatedList[editIndex] = partyDetails;
+      setPartyList(updatedList);
+      console.log("Updated", partyDetails);
     } else {
       // Add logic
-      setItemList([...itemList, itemDetails]);
-      console.log("Added", itemDetails);
+      setPartyList([...partyList, partyDetails]);
+      console.log("Added", partyDetails);
     }
 
     // Reset the form and state
     setLoading({ ...loading, add: false });
-    setItemDetails({
-      item_name: '',
-      item_code: '',
-      category: '',
-      hsn_code: '',
-      unit_price: '',
-      stock_quantity: '',
+    setPartyDetails({
+      party_name: '',
+      party_reg_no: '',
+      party_type: '',
+      phone: '',
+      email: '',
+      address: '',
       description: ''
     });
     setOpen(false); // Close the dialog after adding or updating
   };
 
   const handleEdit = (index) => {
-    setItemDetails(itemList[index]); // Populate form with the selected item's details
-    setEditIndex(index); // Set the index of the item being edited
+    setPartyDetails(partyList[index]); // Populate form with the selected party's details
+    setEditIndex(index); // Set the index of the party being edited
     setOpen(true); // Open the dialog to edit
   };
 
   const handleDelete = (index) => {
-    const updatedList = itemList.filter((_, i) => i !== index); // Remove the selected item
-    setItemList(updatedList);
-    console.log("Deleted item at index", index);
+    const updatedList = partyList.filter((_, i) => i !== index); // Remove the selected party
+    setPartyList(updatedList);
+    console.log("Deleted party at index", index);
   };
 
   return (
     <Box sx={{ maxWidth: '100%', padding: 2 }}>
-      {/* Add Item Button */}
+      {/* Add Party Button */}
       <Button variant="contained" color="secondary" onClick={handleClickOpen}>
-        {editIndex !== null ? 'Edit Item' : 'Add Item'}
+        {editIndex !== null ? 'Edit Party' : 'Add Party'}
       </Button>
 
       {/* Dialog (Popup) Form */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{editIndex !== null ? 'Edit Item Details' : 'Add Item Details'}</DialogTitle>
+        <DialogTitle>{editIndex !== null ? 'Edit Party Details' : 'Add Party Details'}</DialogTitle>
         <DialogContent>
           <Paper sx={{ padding: "10px" , backgroundColor: "#f4ebfe"}}>
             <form>
+              {/* Party Name */}
               <TextField
                 fullWidth
-                label="Item Name"
-                name="item_name"
-                value={itemDetails.item_name}
+                label="Party Name"
+                name="party_name"
+                value={partyDetails.party_name}
                 onChange={handleChange}
                 margin="normal"
                 required
               />
+
+              {/* Party Registration/GST Number */}
               <TextField
                 fullWidth
-                label="Item Code"
-                name="item_code"
-                value={itemDetails.item_code}
+                label="Party Registration/GST Number"
+                name="party_reg_no"
+                value={partyDetails.party_reg_no}
                 onChange={handleChange}
                 margin="normal"
                 required
               />
+
+              {/* Party Type */}
               <FormControl fullWidth margin="normal" required>
-                <InputLabel>Category</InputLabel>
+                <InputLabel>Party Type</InputLabel>
                 <Select
-                  value={itemDetails.category}
-                  name="category"
+                  value={partyDetails.party_type}
+                  name="party_type"
                   onChange={handleChange}
-                  label="Category"
+                  label="Party Type"
                 >
-                  {categories.map(category => (
-                    <MenuItem key={category.id} value={category.name}>
-                      {category.name}
-                    </MenuItem>
-                  ))}
+                  <MenuItem value="Vendor">Vendor</MenuItem>
+                  <MenuItem value="Supplier">Supplier</MenuItem>
+                  <MenuItem value="Customer">Customer</MenuItem>
                 </Select>
               </FormControl>
+
+              {/* Phone Number */}
               <TextField
                 fullWidth
-                label="HSN Code"
-                name="hsn_code"
-                value={itemDetails.hsn_code}
+                label="Phone Number"
+                name="phone"
+                value={partyDetails.phone}
                 onChange={handleChange}
                 margin="normal"
+                required
               />
+
+              {/* Email */}
               <TextField
                 fullWidth
-                label="Unit Price"
-                name="unit_price"
-                value={itemDetails.unit_price}
+                label="Email"
+                name="email"
+                value={partyDetails.email}
                 onChange={handleChange}
                 margin="normal"
-                type="number"
+                required
               />
+
+              {/* Address */}
               <TextField
                 fullWidth
-                label="Stock Quantity"
-                name="stock_quantity"
-                value={itemDetails.stock_quantity}
+                multiline
+                rows={3}
+                label="Address"
+                name="address"
+                value={partyDetails.address}
                 onChange={handleChange}
                 margin="normal"
-                type="number"
+                required
               />
+
+              {/* Description */}
               <TextField
                 fullWidth
                 multiline
                 rows={4}
                 label="Description"
                 name="description"
-                value={itemDetails.description}
+                value={partyDetails.description}
                 onChange={handleChange}
                 margin="normal"
               />
@@ -176,31 +188,31 @@ export default function Itemmaster() {
         </DialogActions>
       </Dialog>
 
-      {/* Table to Display Item Details */}
+      {/* Table to Display Party Details */}
       <TableContainer component={Paper} sx={{ marginTop: 3 }}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Item Name</TableCell>
-              <TableCell>Item Code</TableCell>
-              <TableCell>Category</TableCell>
-              <TableCell>HSN Code</TableCell>
-              <TableCell>Unit Price</TableCell>
-              <TableCell>Stock Quantity</TableCell>
+              <TableCell>Party Name</TableCell>
+              <TableCell>Party Registration/GST No.</TableCell>
+              <TableCell>Party Type</TableCell>
+              <TableCell>Phone</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Address</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {itemList.map((item, index) => (
+            {partyList.map((party, index) => (
               <TableRow key={index}>
-                <TableCell>{item.item_name}</TableCell>
-                <TableCell>{item.item_code}</TableCell>
-                <TableCell>{item.category}</TableCell>
-                <TableCell>{item.hsn_code}</TableCell>
-                <TableCell>{item.unit_price}</TableCell>
-                <TableCell>{item.stock_quantity}</TableCell>
-                <TableCell>{item.description}</TableCell>
+                <TableCell>{party.party_name}</TableCell>
+                <TableCell>{party.party_reg_no}</TableCell>
+                <TableCell>{party.party_type}</TableCell>
+                <TableCell>{party.phone}</TableCell>
+                <TableCell>{party.email}</TableCell>
+                <TableCell>{party.address}</TableCell>
+                <TableCell>{party.description}</TableCell>
                 <TableCell>
                   <IconButton color="primary" onClick={() => handleEdit(index)}>
                     <Edit />
