@@ -73,18 +73,25 @@ export default function SimplePaper() {
   };
 
   return (
-    <Box sx={{ maxWidth: '100%', padding: 2}}>
+    <Box sx={{ maxWidth: '100%', padding: 2,}}>
       {/* Add Company Button */}
       <Button variant="contained" color="secondary" onClick={handleClickOpen}>
         {editIndex !== null ? 'Edit Company' : 'Add Company'}
       </Button>
 
       {/* Dialog (Popup) Form */}
+<<<<<<< HEAD
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{editIndex !== null ? 'Edit Company Details' : 'Add Company Details'}</DialogTitle>
         <DialogContent>
           <Paper sx={{ padding: "10px" ,
           }} elevation={0}>
+=======
+      <Dialog open={open} onClose={handleClose} >
+        <DialogTitle style={{backgroundColor:'#f9dff5'}}>{editIndex !== null ? 'Edit Company Details' : 'Add Company Details'}</DialogTitle>
+        <DialogContent style={{backgroundColor:'#f9dff5'}}>
+          <Paper sx={{ padding: "10px" , backgroundColor:'#f9dff5' }}elevation={0}>
+>>>>>>> 1ac6304d66c3762e9f229f0022419ff313a96e48
             <form>
               <TextField
                 fullWidth
@@ -133,7 +140,7 @@ export default function SimplePaper() {
             </form>
           </Paper>
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{backgroundColor:'#f9dff5'}}>
           <Button onClick={handleClose} color="error">
             Cancel
           </Button>
@@ -165,10 +172,10 @@ export default function SimplePaper() {
                 <TableCell>{company.email}</TableCell>
                 <TableCell>{company.address}</TableCell>
                 <TableCell>
-                  <IconButton color="primary" onClick={() => handleEdit(index)}>
+                  <IconButton color="secondary" onClick={() => handleEdit(index)}>
                     <Edit />
                   </IconButton>
-                  <IconButton color="secondary" onClick={() => handleDelete(index)}>
+                  <IconButton color="error" onClick={() => handleDelete(index)}>
                     <Delete />
                   </IconButton>
                 </TableCell>

@@ -91,9 +91,9 @@ export default function FinancialYearForm() {
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{editIndex !== null ? 'Edit Financial Year' : 'Add Financial Year'}</DialogTitle>
-        <DialogContent>
-          <Paper sx={{ padding: "10px" , backgroundColor: "#f4ebfe"}}>
+        <DialogTitle style={{backgroundColor:'#f9dff5'}}>{editIndex !== null ? 'Edit Financial Year' : 'Add Financial Year'}</DialogTitle>
+        <DialogContent style={{backgroundColor:'#f9dff5'}}>
+          <Paper sx={{ padding: "10px" , backgroundColor: "#f9dff5"}} elevation={0}>
             <form>
               {/* Start Date */}
               <TextField
@@ -161,7 +161,7 @@ export default function FinancialYearForm() {
             </form>
           </Paper>
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{backgroundColor:'#f9dff5'}}>
           <Button onClick={handleClose} color="error">
             Cancel
           </Button>
@@ -193,10 +193,10 @@ export default function FinancialYearForm() {
                 <TableCell>{year.status}</TableCell>
                 <TableCell>{year.description}</TableCell>
                 <TableCell>
-                  <IconButton color="primary" onClick={() => handleEdit(index)}>
+                  <IconButton color="secondary" onClick={() => handleEdit(index)}>
                     <Edit />
                   </IconButton>
-                  <IconButton color="secondary" onClick={() => handleDelete(index)}>
+                  <IconButton color="error" onClick={() => handleDelete(index)}>
                     <Delete />
                   </IconButton>
                 </TableCell>

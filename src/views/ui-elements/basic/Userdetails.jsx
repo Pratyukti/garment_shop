@@ -88,9 +88,9 @@ export default function Userdetails() {
 
       {/* Dialog (Popup) Form */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{editIndex !== null ? 'Edit User Details' : 'Add User Details'}</DialogTitle>
-        <DialogContent>
-          <Paper sx={{ padding: "10px" , backgroundColor: "#f4ebfe"}}>
+        <DialogTitle style={{backgroundColor:'#f9dff5'}}>{editIndex !== null ? 'Edit User Details' : 'Add User Details'}</DialogTitle>
+        <DialogContent style={{backgroundColor:'#f9dff5'}}>
+          <Paper sx={{ padding: "10px" , backgroundColor: "#f9dff5"}} elevation={0}>
             <form>
               {/* User Name */}
               <TextField
@@ -177,7 +177,7 @@ export default function Userdetails() {
             </form>
           </Paper>
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{backgroundColor:'#f9dff5'}}>
           <Button onClick={handleClose} color="error">
             Cancel
           </Button>
@@ -213,7 +213,7 @@ export default function Userdetails() {
                 <TableCell>{user.password}</TableCell>
                 <TableCell>{user.description}</TableCell>
                 <TableCell>
-                  <IconButton color="primary" onClick={() => handleEdit(index)}>
+                  <IconButton color="secondary" onClick={() => handleEdit(index)}>
                     <Edit />
                   </IconButton>
                   <IconButton color="secondary" onClick={() => handleDelete(index)}>

@@ -90,9 +90,9 @@ export default function Itemmaster() {
 
       {/* Dialog (Popup) Form */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{editIndex !== null ? 'Edit Item Details' : 'Add Item Details'}</DialogTitle>
-        <DialogContent>
-          <Paper sx={{ padding: "10px" , backgroundColor: "#f4ebfe"}}>
+        <DialogTitle style={{backgroundColor:'#f9dff5'}}>{editIndex !== null ? 'Edit Item Details' : 'Add Item Details'}</DialogTitle>
+        <DialogContent style={{backgroundColor:'#f9dff5'}}>
+          <Paper sx={{ padding: "10px" , backgroundColor: "#f9dff5"}} elevation={0}>
             <form>
               <TextField
                 fullWidth
@@ -166,7 +166,7 @@ export default function Itemmaster() {
             </form>
           </Paper>
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{backgroundColor:'#f9dff5'}}>
           <Button onClick={handleClose} color="error">
             Cancel
           </Button>
