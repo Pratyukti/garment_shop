@@ -279,6 +279,7 @@ const menuItems = {
               type: 'item',
               url: '/basic/itemmaster'
             },
+           
             {
               id: 'breadcrumb',
               title: 'Design Details',
@@ -324,7 +325,7 @@ const menuItems = {
           title: 'Purchase Details',
           type: 'item',
           icon: 'feather icon-file-text',
-          url: '/forms/form-basic'
+          url: '/basic/purchasemaster'
         },
         {
           id: 'table',

@@ -205,6 +205,11 @@ const routes = [
       },
       {
         exact: 'true',
+        path: '/basic/purchasemaster',
+        element: lazy(() => import('./views/ui-elements/PurchaseDetails'))
+      },
+      {
+        exact: 'true',
         path: '/basic/designdetails',
         element: lazy(() => import('./views/ui-elements/basic/Designdetails'))
       },
