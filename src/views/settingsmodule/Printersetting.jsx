@@ -1,21 +1,23 @@
+
 import React, { useState } from 'react';
 import {
   Box,
   TextField,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
-  Button,
   Grid,
+  FormControl,
+  Button,
   Checkbox,
   FormControlLabel,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  Typography
+  Typography,
+  Chip,
+  MenuItem
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+
 
 const PrinterSetting = () => {
   const [printerSettings, setPrinterSettings] = useState({
@@ -28,6 +30,7 @@ const PrinterSetting = () => {
   });
 
   const [openPreview, setOpenPreview] = useState(false);
+  const [customPrinters, setCustomPrinters] = useState([]);
 
   const handleChange = (e) => {
     setPrinterSettings({
@@ -43,10 +46,21 @@ const PrinterSetting = () => {
     });
   };
 
+  const handleAddPrinter = () => {
+    if (printerSettings.defaultPrinter && !customPrinters.includes(printerSettings.defaultPrinter)) {
+      setCustomPrinters([...customPrinters, printerSettings.defaultPrinter]);
+      setPrinterSettings({ ...printerSettings, defaultPrinter: '' });
+    }
+  };
+
+  const handleRemovePrinter = (printer) => {
+    setCustomPrinters(customPrinters.filter(item => item !== printer));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Printer Settings:', printerSettings);
-    // Add your submit logic here
+    console.log('Custom Printers:', customPrinters);
   };
 
   const handlePreviewOpen = () => {
@@ -64,57 +78,87 @@ const PrinterSetting = () => {
         maxWidth: 600,
         mx: 'auto',
         p: 2,
+        color: 'purple',
         
       }}
       onSubmit={handleSubmit}
     >
       <Grid container spacing={2}>
-        {/* Default Printer TextField */}
+        {/* Default Printer Input with Chip Display */}
         <Grid item xs={12}>
-          <TextField
-            label="Default Printer"
-            name="defaultPrinter"
+          <FormControl fullWidth>
+            <TextField
+              label="Add Printer"
+              name="defaultPrinter"
+              value={printerSettings.defaultPrinter}
+              onChange={handleChange}
+              fullWidth
+              variant="outlined"
+              InputProps={{
+                startAdornment: (
+                  <>
+                    {customPrinters.map((printer, index) => (
+                      <Chip
+                        key={index}
+                        label={printer}
+                        onDelete={() => handleRemovePrinter(printer)}
+                        sx={{ marginRight: '5px' }}
+                      />
+                    ))}
+                  </>
+                ),
+              }}
+            />
+          </FormControl>
+        </Grid>
+
+        {/* Add Printer Button */}
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleAddPrinter}
+            startIcon={<AddIcon />}
             fullWidth
-            value={printerSettings.defaultPrinter}
-            onChange={handleChange}
-            variant="outlined"
-          />
+          >
+            Add Printer
+          </Button>
         </Grid>
 
         {/* Paper Size Select */}
         <Grid item xs={12}>
           <FormControl fullWidth variant="outlined">
-            <InputLabel>Paper Size</InputLabel>
-            <Select
+            <TextField
+              label="Paper Size"
               name="paperSize"
               value={printerSettings.paperSize}
               onChange={handleChange}
-              label="Paper Size"
+              select
             >
               <MenuItem value="A4">A4</MenuItem>
               <MenuItem value="A5">A5</MenuItem>
               <MenuItem value="Custom">Custom</MenuItem>
-            </Select>
+            </TextField>
           </FormControl>
         </Grid>
 
         {/* Print Format Select */}
         <Grid item xs={12}>
           <FormControl fullWidth variant="outlined">
-            <InputLabel>Print Format</InputLabel>
-            <Select
+            <TextField
+              label="Print Format"
               name="printFormat"
               value={printerSettings.printFormat}
               onChange={handleChange}
-              label="Print Format"
+              select
             >
               <MenuItem value="Portrait">Portrait</MenuItem>
               <MenuItem value="Landscape">Landscape</MenuItem>
-            </Select>
+            </TextField>
           </FormControl>
         </Grid>
 
-        {/* Number of Copies TextField */}
+        {/* Number of Copies */}
         <Grid item xs={12}>
           <TextField
             label="Number of Copies"
@@ -127,7 +171,7 @@ const PrinterSetting = () => {
           />
         </Grid>
 
-        {/* Margins TextField */}
+        {/* Margins */}
         <Grid item xs={12}>
           <TextField
             label="Margins"
@@ -171,16 +215,28 @@ const PrinterSetting = () => {
         </Grid>
       </Grid>
 
-      {/* Preview Modal */}
+      {/* Preview Dialog */}
       <Dialog open={openPreview} onClose={handlePreviewClose}>
         <DialogTitle>Preview Printer Settings</DialogTitle>
         <DialogContent>
-          <Typography variant="body1"><strong>Default Printer:</strong> {printerSettings.defaultPrinter}</Typography>
-          <Typography variant="body1"><strong>Paper Size:</strong> {printerSettings.paperSize}</Typography>
-          <Typography variant="body1"><strong>Print Format:</strong> {printerSettings.printFormat}</Typography>
-          <Typography variant="body1"><strong>Number of Copies:</strong> {printerSettings.numberOfCopies}</Typography>
-          <Typography variant="body1"><strong>Margins:</strong> {printerSettings.margins}</Typography>
-          <Typography variant="body1"><strong>Save Globally:</strong> {printerSettings.saveGlobally ? 'Yes' : 'No'}</Typography>
+          <Typography variant="body1">
+            <strong>Default Printer:</strong> {customPrinters.join(', ')}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Paper Size:</strong> {printerSettings.paperSize}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Print Format:</strong> {printerSettings.printFormat}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Number of Copies:</strong> {printerSettings.numberOfCopies}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Margins:</strong> {printerSettings.margins}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Save Globally:</strong> {printerSettings.saveGlobally ? 'Yes' : 'No'}
+          </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={handlePreviewClose} color="primary">

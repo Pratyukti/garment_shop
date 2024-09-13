@@ -80,9 +80,9 @@ export default function Taxdetails() {
 
       {/* Dialog (Popup) Form */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{editIndex !== null ? 'Edit Tax Details' : 'Add Tax Details'}</DialogTitle>
-        <DialogContent>
-          <Paper sx={{ padding: "10px" , backgroundColor: "#f4ebfe"}}>
+        <DialogTitle style={{backgroundColor:'#f9dff5'}}>{editIndex !== null ? 'Edit Tax Details' : 'Add Tax Details'}</DialogTitle>
+        <DialogContent style={{backgroundColor:'#f9dff5'}}>
+          <Paper sx={{ padding: "10px" , backgroundColor: "#f9dff5"}} elevation={0}>
             <form>
               {/* Tax Name */}
               <FormControl fullWidth margin="normal" required>
@@ -124,14 +124,14 @@ export default function Taxdetails() {
             </form>
           </Paper>
         </DialogContent>
-        <DialogActions>
+        <DialogActions style={{backgroundColor:'#f9dff5'}}>
           <Button onClick={handleClose} color="error">
             Cancel
           </Button>
           <Button onClick={handleAddOrUpdate} color="secondary" disabled={loading.add}>
             {loading.add ? <CircularProgress size={24} /> : editIndex !== null ? 'Update' : 'Add'}
           </Button>
-        </DialogActions>
+        </DialogActions >
       </Dialog>
 
       {/* Table to Display Tax Details */}
