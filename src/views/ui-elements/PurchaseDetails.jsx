@@ -100,7 +100,10 @@ export default function PurchaseVoucher() {
       party_name: '',
       address: ''
     });
-
+    setVoucherInfo({
+       voucher_number: '', 
+       voucher_date: ''
+    });
     setItemDetails({
       quantity: '',
       rate: '',
@@ -142,7 +145,7 @@ export default function PurchaseVoucher() {
   return (
     <Box sx={{ maxWidth: '100%', padding: 2 }}>
       {/* Button to Open Dialog for Adding or Editing Items */}
-      <Button variant="contained" color="primary" onClick={() => handleOpenDialog()}>
+      <Button variant="contained" color="secondary" onClick={() => handleOpenDialog()}>
         {editIndex !== null ? 'Edit Item' : 'Add Item'}
       </Button>
 
@@ -255,8 +258,8 @@ export default function PurchaseVoucher() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} color="secondary">Cancel</Button>
-          <Button onClick={handleSaveItem} color="primary">Save</Button>
+          <Button onClick={handleCloseDialog} color="error">Cancel</Button>
+          <Button onClick={handleSaveItem} color="secondary">Save</Button>
         </DialogActions>
       </Dialog>
 
@@ -292,10 +295,10 @@ export default function PurchaseVoucher() {
                   <TableCell>{item.purchase_amount.toFixed(2)}</TableCell>
                   <TableCell>
                     <IconButton onClick={() => handleOpenDialog(index)}>
-                      <EditIcon color='primary' />
+                      <EditIcon color='secondary' />
                     </IconButton>
                     <IconButton onClick={() => handleDeleteItem(index)}>
-                      <DeleteIcon color='red' />
+                      <DeleteIcon color='error' />
                     </IconButton>
                   </TableCell>
                 </TableRow>

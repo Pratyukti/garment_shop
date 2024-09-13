@@ -230,8 +230,8 @@ const routes = [
       },
       {
         exact: 'true',
-        path: '/basic/financialyeardetails',
-        element: lazy(() => import('./views/ui-elements/basic/Financialyeardetails'))
+        path: '/basic/barcodedetails',
+        element: lazy(() => import('./views/ui-elements/BarcodeDetails'))
       },
       {
         exact: 'true',

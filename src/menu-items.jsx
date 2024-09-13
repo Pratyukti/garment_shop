@@ -332,10 +332,46 @@ const menuItems = {
           title: 'Stock Entry/Barcoding',
           type: 'item',
           icon: 'feather icon-server',
-          url: '/tables/bootstrap'
+          url: '/basic/barcodedetails'
         }
       ]
     },
+    {
+      id: 'sales',
+      title: 'Sales Module',
+      type: 'group',
+      icon: 'icon-ui',
+      children: [
+        {
+          id: 'sales',
+          title: 'RETAIL SALE',
+          type: 'collapse',
+          icon: 'feather icon-box',
+          children: [
+            {
+              id: 'button',
+              title: 'Sales Report',
+              type: 'item',
+              url: '/basic/button'
+            },
+            {
+              id: 'badges',
+              title: 'Bulk Sale',
+              type: 'item',
+              url: '/basic/badges'
+            },
+            {
+              id: 'breadcrumb',
+              title: 'Bulk Sale Returns',
+              type: 'item',
+              url: '/basic/breadcrumb-paging'
+            },
+           
+          ]
+        }
+      ]
+    },
+    
     {
       id: 'report',
       title: 'REPORT SECTION',

@@ -83,7 +83,8 @@ export default function SimplePaper() {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{editIndex !== null ? 'Edit Company Details' : 'Add Company Details'}</DialogTitle>
         <DialogContent>
-          <Paper sx={{ padding: "10px" , backgroundColor: "#f4ebfe"}}>
+          <Paper sx={{ padding: "10px" ,
+          }} elevation={0}>
             <form>
               <TextField
                 fullWidth
