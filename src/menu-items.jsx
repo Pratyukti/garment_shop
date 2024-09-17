@@ -344,15 +344,15 @@ const menuItems = {
       children: [
         {
           id: 'sales',
-          title: 'RETAIL SALE',
+          title: 'SALES',
           type: 'collapse',
           icon: 'feather icon-box',
           children: [
             {
               id: 'button',
-              title: 'Sales Report',
+              title: 'Retail Sales',
               type: 'item',
-              url: '/basic/button'
+              url: '/forms/Retailsales'
             },
             {
               id: 'badges',
