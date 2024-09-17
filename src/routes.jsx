@@ -235,8 +235,8 @@ const routes = [
       },
       {
         exact: 'true',
-        path: '/forms/form-basic',
-        element: lazy(() => import('./views/forms/FormsElements'))
+        path: '/forms/Retailsales',
+        element: lazy(() => import('./views/sales/Retailsales'))
       },
       {
         exact: 'true',
