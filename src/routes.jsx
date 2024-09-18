@@ -230,13 +230,28 @@ const routes = [
       },
       {
         exact: 'true',
+        path: '/basic/financialyeardetails',
+        element: lazy(() => import('./views/ui-elements/basic/Financialyeardetails'))
+      },
+      {
+        exact: 'true',
         path: '/basic/barcodedetails',
         element: lazy(() => import('./views/ui-elements/BarcodeDetails'))
       },
       {
         exact: 'true',
-        path: '/forms/form-basic',
-        element: lazy(() => import('./views/forms/FormsElements'))
+        path: '/sale/Retailsale',
+        element: lazy(() => import('./views/sale/Retailsale'))
+      },
+      {
+        exact: 'true',
+        path: 'sale/Bulksale',
+        element: lazy(() => import('./views/sale/Bulksale'))
+      },
+      {
+        exact: 'true',
+        path: '/sale/bulksalereturn',
+        element: lazy(() => import('./views/sale/Bulksalereturn'))
       },
       {
         exact: 'true',

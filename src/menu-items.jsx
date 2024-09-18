@@ -344,27 +344,27 @@ const menuItems = {
       children: [
         {
           id: 'sales',
-          title: 'RETAIL SALE',
+          title: 'Sales',
           type: 'collapse',
           icon: 'feather icon-box',
           children: [
             {
               id: 'button',
-              title: 'Sales Report',
+              title: 'Retail Sale',
               type: 'item',
-              url: '/basic/button'
+              url: '/sale/Retailsale'
             },
             {
               id: 'badges',
               title: 'Bulk Sale',
               type: 'item',
-              url: '/basic/badges'
+              url: 'sale/Bulksale'
             },
             {
               id: 'breadcrumb',
               title: 'Bulk Sale Returns',
               type: 'item',
-              url: '/basic/breadcrumb-paging'
+              url: '/sale/bulksalereturn'
             },
            
           ]

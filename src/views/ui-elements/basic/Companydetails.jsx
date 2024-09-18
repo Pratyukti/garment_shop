@@ -15,6 +15,8 @@ export default function SimplePaper() {
   const [loading, setLoading] = useState({ add: false });
   const [open, setOpen] = useState(false);  // State to control dialog visibility
   const [editIndex, setEditIndex] = useState(null); // Track index of the company being edited
+  const [deleteIndex, setDeleteIndex] = useState(null); // Track index of the company being deleted
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);  // Control delete confirmation dialog
 
   const handleChange = (e) => {
     setCompanyDetails({
@@ -67,9 +69,15 @@ export default function SimplePaper() {
   };
 
   const handleDelete = (index) => {
-    const updatedList = companyList.filter((_, i) => i !== index);  // Remove the selected company
+    setDeleteIndex(index);  // Set the company to delete
+    setDeleteDialogOpen(true);  // Open the delete confirmation dialog
+  };
+
+  const confirmDelete = () => {
+    const updatedList = companyList.filter((_, i) => i !== deleteIndex);  // Remove the selected company
     setCompanyList(updatedList);
-    console.log("Deleted company at index", index);
+    console.log("Deleted company at index", deleteIndex);
+    setDeleteDialogOpen(false);  // Close the confirmation dialog after deletion
   };
 
   return (
@@ -81,10 +89,9 @@ export default function SimplePaper() {
 
       {/* Dialog (Popup) Form */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{editIndex !== null ? 'Edit Company Details' : 'Add Company Details'}</DialogTitle>
-        <DialogContent>
-          <Paper sx={{ padding: "10px" ,
-          }} elevation={0}>
+        <DialogTitle  style={{backgroundColor:'#f9dff5'}}>{editIndex !== null ? 'Edit Company Details' : 'Add Company Details'}</DialogTitle>
+        <DialogContent  style={{backgroundColor:'#f9dff5'}}>
+          <Paper sx={{ padding: "10px" ,backgroundColor:'#f9dff5'}} elevation={0}>
             <form>
               <TextField
                 fullWidth
@@ -133,7 +140,7 @@ export default function SimplePaper() {
             </form>
           </Paper>
         </DialogContent>
-        <DialogActions>
+        <DialogActions  style={{backgroundColor:'#f9dff5'}}>
           <Button onClick={handleClose} color="error">
             Cancel
           </Button>
@@ -165,10 +172,10 @@ export default function SimplePaper() {
                 <TableCell>{company.email}</TableCell>
                 <TableCell>{company.address}</TableCell>
                 <TableCell>
-                  <IconButton color="primary" onClick={() => handleEdit(index)}>
+                  <IconButton color="secondary" onClick={() => handleEdit(index)}>
                     <Edit />
                   </IconButton>
-                  <IconButton color="secondary" onClick={() => handleDelete(index)}>
+                  <IconButton color="error" onClick={() => handleDelete(index)}>
                     <Delete />
                   </IconButton>
                 </TableCell>
@@ -177,6 +184,25 @@ export default function SimplePaper() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+      >
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          Are you sure you want to delete ?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteDialogOpen(false)} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={confirmDelete} color="error">
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

@@ -21,6 +21,9 @@ export default function Userdetails() {
   const [open, setOpen] = useState(false); // State to control dialog visibility
   const [editIndex, setEditIndex] = useState(null); // Track index of the user being edited
 
+  const [confirmOpen, setConfirmOpen] = useState(false); // State to control confirmation dialog visibility
+  const [deleteIndex, setDeleteIndex] = useState(null); // Track index of the user to be deleted
+
   const handleChange = (e) => {
     setUserDetails({
       ...userDetails,
@@ -73,10 +76,20 @@ export default function Userdetails() {
     setOpen(true); // Open the dialog to edit
   };
 
-  const handleDelete = (index) => {
-    const updatedList = userList.filter((_, i) => i !== index); // Remove the selected user
+  const handleDeleteConfirmation = (index) => {
+    setDeleteIndex(index); // Store the index of the item to be deleted
+    setConfirmOpen(true); // Open the confirmation dialog
+  };
+
+  const handleDelete = () => {
+    const updatedList = userList.filter((_, i) => i !== deleteIndex); // Remove the selected user
     setUserList(updatedList);
-    console.log("Deleted user at index", index);
+    console.log("Deleted user at index", deleteIndex);
+    setConfirmOpen(false); // Close the confirmation dialog
+  };
+
+  const handleConfirmClose = () => {
+    setConfirmOpen(false); // Close the confirmation dialog without deleting
   };
 
   return (
@@ -216,7 +229,7 @@ export default function Userdetails() {
                   <IconButton color="secondary" onClick={() => handleEdit(index)}>
                     <Edit />
                   </IconButton>
-                  <IconButton color="secondary" onClick={() => handleDelete(index)}>
+                  <IconButton color="error" onClick={() => handleDeleteConfirmation(index)}>
                     <Delete />
                   </IconButton>
                 </TableCell>
@@ -225,6 +238,18 @@ export default function Userdetails() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Confirmation Dialog for Delete */}
+      <Dialog open={confirmOpen} onClose={handleConfirmClose}>
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          Are you sure you want to delete this user?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConfirmClose} color="secondary">Cancel</Button>
+          <Button onClick={handleDelete} color="error">Confirm</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

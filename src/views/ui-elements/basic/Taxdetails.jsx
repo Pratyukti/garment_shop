@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 
-export default function Taxdetails() {
+export default function TaxDetails() {
   const [taxDetails, setTaxDetails] = useState({
     tax_name: '',
     tax_percentage: '',
@@ -16,6 +16,8 @@ export default function Taxdetails() {
   const [loading, setLoading] = useState({ add: false });
   const [open, setOpen] = useState(false); // State to control dialog visibility
   const [editIndex, setEditIndex] = useState(null); // Track index of the tax being edited
+  const [deleteIndex, setDeleteIndex] = useState(null); // Track index of the tax to be deleted
+  const [confirmOpen, setConfirmOpen] = useState(false); // State to control delete confirmation dialog
 
   const handleChange = (e) => {
     setTaxDetails({
@@ -65,10 +67,20 @@ export default function Taxdetails() {
     setOpen(true); // Open the dialog to edit
   };
 
-  const handleDelete = (index) => {
-    const updatedList = taxList.filter((_, i) => i !== index); // Remove the selected tax
+  const handleDeleteConfirmation = (index) => {
+    setDeleteIndex(index); // Store the index of the item to be deleted
+    setConfirmOpen(true); // Open the confirmation dialog
+  };
+
+  const handleDelete = () => {
+    const updatedList = taxList.filter((_, i) => i !== deleteIndex); // Remove the selected tax
     setTaxList(updatedList);
-    console.log("Deleted tax at index", index);
+    console.log("Deleted tax at index", deleteIndex);
+    setConfirmOpen(false); // Close the confirmation dialog
+  };
+
+  const handleConfirmClose = () => {
+    setConfirmOpen(false); // Close the confirmation dialog without deleting
   };
 
   return (
@@ -80,9 +92,11 @@ export default function Taxdetails() {
 
       {/* Dialog (Popup) Form */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle style={{backgroundColor:'#f9dff5'}}>{editIndex !== null ? 'Edit Tax Details' : 'Add Tax Details'}</DialogTitle>
-        <DialogContent style={{backgroundColor:'#f9dff5'}}>
-          <Paper sx={{ padding: "10px" , backgroundColor: "#f9dff5"}} elevation={0}>
+        <DialogTitle style={{ backgroundColor: '#f9dff5' }}>
+          {editIndex !== null ? 'Edit Tax Details' : 'Add Tax Details'}
+        </DialogTitle>
+        <DialogContent style={{ backgroundColor: '#f9dff5' }}>
+          <Paper sx={{ padding: '10px', backgroundColor: '#f9dff5' }} elevation={0}>
             <form>
               {/* Tax Name */}
               <FormControl fullWidth margin="normal" required>
@@ -124,14 +138,14 @@ export default function Taxdetails() {
             </form>
           </Paper>
         </DialogContent>
-        <DialogActions style={{backgroundColor:'#f9dff5'}}>
+        <DialogActions style={{ backgroundColor: '#f9dff5' }}>
           <Button onClick={handleClose} color="error">
             Cancel
           </Button>
           <Button onClick={handleAddOrUpdate} color="secondary" disabled={loading.add}>
             {loading.add ? <CircularProgress size={24} /> : editIndex !== null ? 'Update' : 'Add'}
           </Button>
-        </DialogActions >
+        </DialogActions>
       </Dialog>
 
       {/* Table to Display Tax Details */}
@@ -155,7 +169,7 @@ export default function Taxdetails() {
                   <IconButton color="primary" onClick={() => handleEdit(index)}>
                     <Edit />
                   </IconButton>
-                  <IconButton color="secondary" onClick={() => handleDelete(index)}>
+                  <IconButton color="secondary" onClick={() => handleDeleteConfirmation(index)}>
                     <Delete />
                   </IconButton>
                 </TableCell>
@@ -164,6 +178,18 @@ export default function Taxdetails() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Confirmation Dialog for Delete */}
+      <Dialog open={confirmOpen} onClose={handleConfirmClose}>
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          Are you sure you want to delete this tax entry?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConfirmClose} color="secondary">Cancel</Button>
+          <Button onClick={handleDelete} color="error">Confirm</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
