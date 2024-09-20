@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   TextField, Button, Box, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, MenuItem, Select, InputLabel, FormControl
@@ -23,6 +23,15 @@ export default function Userdetails() {
 
   const [confirmOpen, setConfirmOpen] = useState(false); // State to control confirmation dialog visibility
   const [deleteIndex, setDeleteIndex] = useState(null); // Track index of the user to be deleted
+
+  // Refs for form fields
+  const usernameRef = useRef(null);
+  const fullNameRef = useRef(null);
+  const emailRef = useRef(null);
+  const contactNumberRef = useRef(null);
+  const roleRef = useRef(null);
+  const passwordRef = useRef(null);
+  const descriptionRef = useRef(null);
 
   const handleChange = (e) => {
     setUserDetails({
@@ -92,6 +101,16 @@ export default function Userdetails() {
     setConfirmOpen(false); // Close the confirmation dialog without deleting
   };
 
+  // Function to handle Enter key press
+  const handleKeyPress = (e, nextRef) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent form submission
+      if (nextRef.current) {
+        nextRef.current.focus(); // Focus on the next field
+      }
+    }
+  };
+
   return (
     <Box sx={{ maxWidth: '100%', padding: 2 }}>
       {/* Add User Button */}
@@ -114,6 +133,8 @@ export default function Userdetails() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={usernameRef}
+                onKeyDown={(e) => handleKeyPress(e, fullNameRef)}
               />
 
               {/* Full Name */}
@@ -125,6 +146,8 @@ export default function Userdetails() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={fullNameRef}
+                onKeyDown={(e) => handleKeyPress(e, emailRef)}
               />
 
               {/* Email Address */}
@@ -137,6 +160,8 @@ export default function Userdetails() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={emailRef}
+                onKeyDown={(e) => handleKeyPress(e, contactNumberRef)}
               />
 
               {/* Contact Number */}
@@ -148,6 +173,8 @@ export default function Userdetails() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={contactNumberRef}
+                onKeyDown={(e) => handleKeyPress(e, roleRef)}
               />
 
               {/* Role */}
@@ -158,6 +185,8 @@ export default function Userdetails() {
                   name="role"
                   onChange={handleChange}
                   label="Role"
+                  inputRef={roleRef}
+                  onKeyDown={(e) => handleKeyPress(e, passwordRef)}
                 >
                   <MenuItem value="Admin">Admin</MenuItem>
                   <MenuItem value="Employee">Employee</MenuItem>
@@ -174,6 +203,8 @@ export default function Userdetails() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={passwordRef}
+                onKeyDown={(e) => handleKeyPress(e, descriptionRef)}
               />
 
               {/* Description */}
@@ -186,6 +217,12 @@ export default function Userdetails() {
                 value={userDetails.description}
                 onChange={handleChange}
                 margin="normal"
+                inputRef={descriptionRef}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault(); // Prevent form submission on Enter key
+                  }
+                }}
               />
             </form>
           </Paper>

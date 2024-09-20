@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+
+
+import React, { useState, useRef } from 'react';
 import { TextField, Button, Box, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 
@@ -17,6 +19,13 @@ export default function SimplePaper() {
   const [editIndex, setEditIndex] = useState(null); // Track index of the company being edited
   const [deleteIndex, setDeleteIndex] = useState(null); // Track index of the company being deleted
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);  // Control delete confirmation dialog
+
+  // Refs for focusing on input fields
+  const companyNameRef = useRef(null);
+  const gstRef = useRef(null);
+  const phoneRef = useRef(null);
+  const emailRef = useRef(null);
+  const addressRef = useRef(null);
 
   const handleChange = (e) => {
     setCompanyDetails({
@@ -80,6 +89,12 @@ export default function SimplePaper() {
     setDeleteDialogOpen(false);  // Close the confirmation dialog after deletion
   };
 
+  const handleKeyDown = (e, ref) => {
+    if (e.key === 'Enter') {
+      ref.current.focus();  // Move focus to the next field
+    }
+  };
+
   return (
     <Box sx={{ maxWidth: '100%', padding: 2}}>
       {/* Add Company Button */}
@@ -89,8 +104,8 @@ export default function SimplePaper() {
 
       {/* Dialog (Popup) Form */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle  style={{backgroundColor:'#f9dff5'}}>{editIndex !== null ? 'Edit Company Details' : 'Add Company Details'}</DialogTitle>
-        <DialogContent  style={{backgroundColor:'#f9dff5'}}>
+        <DialogTitle style={{backgroundColor:'#f9dff5'}}>{editIndex !== null ? 'Edit Company Details' : 'Add Company Details'}</DialogTitle>
+        <DialogContent style={{backgroundColor:'#f9dff5'}}>
           <Paper sx={{ padding: "10px" ,backgroundColor:'#f9dff5'}} elevation={0}>
             <form>
               <TextField
@@ -101,6 +116,8 @@ export default function SimplePaper() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={companyNameRef}  // Ref for this field
+                onKeyDown={(e) => handleKeyDown(e, gstRef)}  // Move to GST field on Enter
               />
               <TextField
                 fullWidth
@@ -110,6 +127,8 @@ export default function SimplePaper() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={gstRef}  // Ref for this field
+                onKeyDown={(e) => handleKeyDown(e, phoneRef)}  // Move to Phone field on Enter
               />
               <TextField
                 fullWidth
@@ -118,6 +137,8 @@ export default function SimplePaper() {
                 value={companyDetails.phone_number}
                 onChange={handleChange}
                 margin="normal"
+                inputRef={phoneRef}  // Ref for this field
+                onKeyDown={(e) => handleKeyDown(e, emailRef)}  // Move to Email field on Enter
               />
               <TextField
                 fullWidth
@@ -126,6 +147,8 @@ export default function SimplePaper() {
                 value={companyDetails.email}
                 onChange={handleChange}
                 margin="normal"
+                inputRef={emailRef}  // Ref for this field
+                onKeyDown={(e) => handleKeyDown(e, addressRef)}  // Move to Address field on Enter
               />
               <TextField
                 fullWidth
@@ -136,11 +159,12 @@ export default function SimplePaper() {
                 value={companyDetails.address}
                 onChange={handleChange}
                 margin="normal"
+                inputRef={addressRef}  // Ref for this field
               />
             </form>
           </Paper>
         </DialogContent>
-        <DialogActions  style={{backgroundColor:'#f9dff5'}}>
+        <DialogActions style={{backgroundColor:'#f9dff5'}}>
           <Button onClick={handleClose} color="error">
             Cancel
           </Button>

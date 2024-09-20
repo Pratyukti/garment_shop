@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   TextField, Button, Box, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, MenuItem, Select, InputLabel, FormControl
@@ -23,8 +23,12 @@ export default function FinancialYearForm() {
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState(null);
 
+  const startDateRef = useRef(null);
+  const endDateRef = useRef(null);
+  const statusRef = useRef(null);
+  const descriptionRef = useRef(null);
+
   useEffect(() => {
-    // Automatically generate the financial year name based on the selected start and end dates
     if (financialYearDetails.startDate && financialYearDetails.endDate) {
       const startYear = new Date(financialYearDetails.startDate).getFullYear();
       const endYear = new Date(financialYearDetails.endDate).getFullYear();
@@ -82,18 +86,29 @@ export default function FinancialYearForm() {
     setOpen(true);
   };
 
-  // Open delete confirmation dialog
   const handleOpenDeleteConfirm = (index) => {
     setDeleteIndex(index);
     setOpenDeleteConfirm(true);
   };
 
-  // Confirm delete and remove the item from the list
   const handleDelete = () => {
     const updatedList = financialYearList.filter((_, i) => i !== deleteIndex);
     setFinancialYearList(updatedList);
     console.log("Deleted financial year at index", deleteIndex);
     setOpenDeleteConfirm(false);
+  };
+
+  // Handle key press for navigating between fields and form submission
+  const handleKeyPress = (e, ref) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const nextField = ref.current?.nextElementSibling;
+      if (nextField) {
+        nextField.focus();
+      } else {
+        handleAddOrUpdate(e);
+      }
+    }
   };
 
   return (
@@ -118,6 +133,8 @@ export default function FinancialYearForm() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={startDateRef}
+                onKeyDown={(e) => handleKeyPress(e, endDateRef)}
               />
 
               {/* End Date */}
@@ -131,6 +148,8 @@ export default function FinancialYearForm() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={endDateRef}
+                onKeyDown={(e) => handleKeyPress(e, statusRef)}
               />
 
               {/* Status */}
@@ -141,6 +160,8 @@ export default function FinancialYearForm() {
                   name="status"
                   onChange={handleChange}
                   label="Status"
+                  inputRef={statusRef}
+                  onKeyDown={(e) => handleKeyPress(e, descriptionRef)}
                 >
                   <MenuItem value="Active">Active</MenuItem>
                   <MenuItem value="Inactive">Inactive</MenuItem>
@@ -153,9 +174,7 @@ export default function FinancialYearForm() {
                 label="Financial Year Name"
                 name="financialYearName"
                 value={financialYearDetails.financialYearName}
-                InputProps={{
-                  readOnly: true
-                }}
+                InputProps={{ readOnly: true }}
                 margin="normal"
               />
 
@@ -169,6 +188,8 @@ export default function FinancialYearForm() {
                 value={financialYearDetails.description}
                 onChange={handleChange}
                 margin="normal"
+                inputRef={descriptionRef}
+                onKeyDown={(e) => handleKeyPress(e, null)}
               />
             </form>
           </Paper>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   TextField, Button, Box, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, MenuItem, Select, InputLabel, FormControl
@@ -19,11 +19,23 @@ export default function TaxDetails() {
   const [deleteIndex, setDeleteIndex] = useState(null); // Track index of the tax to be deleted
   const [confirmOpen, setConfirmOpen] = useState(false); // State to control delete confirmation dialog
 
+  // Refs for each field
+  const taxNameRef = useRef(null);
+  const taxPercentageRef = useRef(null);
+  const descriptionRef = useRef(null);
+
   const handleChange = (e) => {
     setTaxDetails({
       ...taxDetails,
       [e.target.name]: e.target.value
     });
+  };
+
+  const handleKeyDown = (e, nextRef) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      nextRef.current?.focus();
+    }
   };
 
   const handleClickOpen = () => {
@@ -106,6 +118,8 @@ export default function TaxDetails() {
                   name="tax_name"
                   onChange={handleChange}
                   label="Tax Name"
+                  inputRef={taxNameRef}
+                  onKeyDown={(e) => handleKeyDown(e, taxPercentageRef)}
                 >
                   <MenuItem value="CGST">CGST</MenuItem>
                   <MenuItem value="SGST">SGST</MenuItem>
@@ -122,6 +136,8 @@ export default function TaxDetails() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={taxPercentageRef}
+                onKeyDown={(e) => handleKeyDown(e, descriptionRef)}
               />
 
               {/* Description */}
@@ -134,6 +150,7 @@ export default function TaxDetails() {
                 value={taxDetails.description}
                 onChange={handleChange}
                 margin="normal"
+                inputRef={descriptionRef}
               />
             </form>
           </Paper>

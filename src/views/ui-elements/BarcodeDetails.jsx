@@ -153,6 +153,7 @@ export default function StockEntry() {
           <Button onClick={handleModalSubmit} variant="contained" color="secondary">
             Save
           </Button>
+          
         </Box>
       </Modal><br/>
 

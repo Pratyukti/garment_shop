@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   TextField, Button, Box, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, MenuItem, Select, InputLabel, FormControl
@@ -25,8 +25,10 @@ export default function Itemmaster() {
   const [loading, setLoading] = useState({ add: false });
   const [open, setOpen] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
-  const [deleteIndex, setDeleteIndex] = useState(null); // Track index of the item being deleted
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // Track delete confirmation dialog
+  const [deleteIndex, setDeleteIndex] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const fieldRefs = useRef([]);
 
   const handleChange = (e) => {
     setItemDetails({
@@ -78,8 +80,8 @@ export default function Itemmaster() {
   };
 
   const handleDeleteDialogOpen = (index) => {
-    setDeleteIndex(index); // Set the index of the item to delete
-    setDeleteDialogOpen(true); // Open the delete confirmation dialog
+    setDeleteIndex(index);
+    setDeleteDialogOpen(true);
   };
 
   const handleDeleteDialogClose = () => {
@@ -89,8 +91,18 @@ export default function Itemmaster() {
   const handleConfirmDelete = () => {
     const updatedList = itemList.filter((_, i) => i !== deleteIndex);
     setItemList(updatedList);
-    setDeleteDialogOpen(false); // Close the confirmation dialog
+    setDeleteDialogOpen(false);
     console.log("Deleted item at index", deleteIndex);
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const nextIndex = index + 1;
+      if (fieldRefs.current[nextIndex]) {
+        fieldRefs.current[nextIndex].focus();
+      }
+    }
   };
 
   return (
@@ -114,6 +126,8 @@ export default function Itemmaster() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={el => (fieldRefs.current[0] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 0)}
               />
               <TextField
                 fullWidth
@@ -123,6 +137,8 @@ export default function Itemmaster() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={el => (fieldRefs.current[1] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 1)}
               />
               <FormControl fullWidth margin="normal" required>
                 <InputLabel>Category</InputLabel>
@@ -131,6 +147,8 @@ export default function Itemmaster() {
                   name="category"
                   onChange={handleChange}
                   label="Category"
+                  inputRef={el => (fieldRefs.current[2] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, 2)}
                 >
                   {categories.map(category => (
                     <MenuItem key={category.id} value={category.name}>
@@ -146,6 +164,8 @@ export default function Itemmaster() {
                 value={itemDetails.hsn_code}
                 onChange={handleChange}
                 margin="normal"
+                inputRef={el => (fieldRefs.current[3] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 3)}
               />
               <TextField
                 fullWidth
@@ -155,6 +175,8 @@ export default function Itemmaster() {
                 onChange={handleChange}
                 margin="normal"
                 type="number"
+                inputRef={el => (fieldRefs.current[4] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 4)}
               />
               <TextField
                 fullWidth
@@ -164,6 +186,8 @@ export default function Itemmaster() {
                 onChange={handleChange}
                 margin="normal"
                 type="number"
+                inputRef={el => (fieldRefs.current[5] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 5)}
               />
               <TextField
                 fullWidth
@@ -174,6 +198,8 @@ export default function Itemmaster() {
                 value={itemDetails.description}
                 onChange={handleChange}
                 margin="normal"
+                inputRef={el => (fieldRefs.current[6] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 6)}
               />
             </form>
           </Paper>
