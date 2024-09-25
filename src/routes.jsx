@@ -164,6 +164,7 @@ export const renderRoutes = (routes = []) => (
 );
 
 const routes = [
+
   {
     exact: 'true',
     path: '/login',
@@ -252,6 +253,16 @@ const routes = [
         exact: 'true',
         path: '/sale/bulksalereturn',
         element: lazy(() => import('./views/sale/Bulksalereturn'))
+      },
+      {
+        exact: 'true',
+        path: '/sale/bulksalereturn',
+        element: lazy(() => import('./views/sale/Bulksalereturn'))
+      },
+      {
+        exact: 'true',
+        path: '/report/bulksalereport',
+        element: lazy(() => import('./views/report/Bulksalereport'))
       },
       {
         exact: 'true',

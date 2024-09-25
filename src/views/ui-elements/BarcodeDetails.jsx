@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useRef } from 'react';
 import {
   TextField,
   Button,
@@ -24,6 +25,15 @@ export default function StockEntry() {
   const [stockEntries, setStockEntries] = useState([]);
   const [error, setError] = useState('');
   const [openModal, setOpenModal] = useState(false);
+
+  // Create refs for each input field
+  const barcodeRef = useRef();
+  const itemNameRef = useRef();
+  const modalItemNameRef = useRef();
+  const modalDescriptionRef = useRef();
+  const modalMRPRef = useRef();
+  const modalQuantityRef = useRef();
+  const modalItemMRPRef = useRef();
 
   // Handle barcode/item change and fetch item details
   const handleItemSearch = () => {
@@ -65,6 +75,16 @@ export default function StockEntry() {
     setStockEntries([]);
   };
 
+  // Function to handle Enter key press for input navigation
+  const handleKeyPress = (e, nextRef) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (nextRef && nextRef.current) {
+        nextRef.current.focus();
+      }
+    }
+  };
+
   return (
     <div>
       <Box sx={{ backgroundColor: '#f9dff5', padding: '20px' }}>
@@ -74,6 +94,8 @@ export default function StockEntry() {
           onChange={(e) => setBarcode(e.target.value)}
           margin="normal"
           sx={{ margin: '5px' }}
+          inputRef={barcodeRef}
+          onKeyDown={(e) => handleKeyPress(e, itemNameRef)}
         />
         <TextField
           label="Item Name"
@@ -81,6 +103,8 @@ export default function StockEntry() {
           onChange={(e) => setItemName(e.target.value)}
           margin="normal"
           sx={{ margin: '5px' }}
+          inputRef={itemNameRef}
+          onKeyDown={(e) => handleKeyPress(e, null)} // Add the next ref if needed
         />
         
         <Button onClick={handleItemSearch} variant="contained" color="secondary" sx={{ marginTop: '30px', margin: '5px' }}>
@@ -118,6 +142,8 @@ export default function StockEntry() {
             onChange={(e) => setItemDetails({ ...itemDetails, name: e.target.value })}
             margin="normal"
             fullWidth
+            inputRef={modalItemNameRef}
+            onKeyDown={(e) => handleKeyPress(e, modalDescriptionRef)}
           />
           <TextField
             label="Description"
@@ -125,6 +151,8 @@ export default function StockEntry() {
             onChange={(e) => setItemDetails({ ...itemDetails, description: e.target.value })}
             margin="normal"
             fullWidth
+            inputRef={modalDescriptionRef}
+            onKeyDown={(e) => handleKeyPress(e, modalMRPRef)}
           />
           <TextField
             label="MRP"
@@ -133,6 +161,8 @@ export default function StockEntry() {
             onChange={(e) => setItemDetails({ ...itemDetails, mrp: e.target.value })}
             margin="normal"
             fullWidth
+            inputRef={modalMRPRef}
+            onKeyDown={(e) => handleKeyPress(e, modalQuantityRef)}
           />
           <TextField
             label="Quantity"
@@ -141,6 +171,8 @@ export default function StockEntry() {
             onChange={(e) => setQuantity(e.target.value)}
             margin="normal"
             fullWidth
+            inputRef={modalQuantityRef}
+            onKeyDown={(e) => handleKeyPress(e, modalItemMRPRef)}
           />
           <TextField
             label="Item MRP"
@@ -149,19 +181,16 @@ export default function StockEntry() {
             onChange={(e) => setItemMRP(e.target.value)}
             margin="normal"
             fullWidth
+            inputRef={modalItemMRPRef}
+            onKeyDown={(e) => handleKeyPress(e, null)} // Add the next ref if needed
           />
           <Button onClick={handleModalSubmit} variant="contained" color="secondary">
             Save
           </Button>
-          
         </Box>
-      </Modal><br/>
+      </Modal>
 
-      {/* <Button onClick={handleSaveEntries} variant="contained" color="secondary">
-        Save
-      </Button> */}
-
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ marginTop: '20px' }}>
         <Table>
           <TableHead>
             <TableRow>

@@ -430,7 +430,7 @@ const menuItems = {
               id: 'typography',
               title: 'Bulk Sale Report',
               type: 'item',
-              url: '/basic/typography'
+              url: '/report/bulksalereport'
             }
           ]
         }

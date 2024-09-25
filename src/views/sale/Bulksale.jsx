@@ -1,14 +1,15 @@
-import React, { useState , useEffect} from 'react';
+
+
+import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Container, Paper, Grid, Divider, IconButton
 } from '@mui/material';
 import { Send as SendIcon, Print as PrintIcon } from '@mui/icons-material';
 
-
 export default function RetailSaleWithSMS() {
   const [formData, setFormData] = useState({
     billNumber: '',
-    salesDateTime: new Date().toISOString().slice(0, 16), // Auto-fetch current date and time
+    salesDateTime: new Date().toISOString().slice(0, 16),
     partyName: '',
     partyMobileNumber: '',
     partyAddress: '',
@@ -62,9 +63,7 @@ export default function RetailSaleWithSMS() {
     alert('Notification sent!');
   };
 
-
-
-  const handlePrint = () => {
+    const handlePrint = () => {
     const printWindow = window.open('', '', 'height=600,width=800');
     const printContent = `
       <html>
@@ -217,18 +216,27 @@ export default function RetailSaleWithSMS() {
   
 
 
+
+  const handleKeyPress = (e, nextInput) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (nextInput) {
+        nextInput.focus();
+      }
+    }
+  };
+
   return (
     <Container maxWidth="md" sx={{ backgroundColor: '#f9dff5', position: 'relative' }}>
       <Paper sx={{ p: 3, backgroundColor: '#f9dff5' }} elevation={0}>
         <Typography variant="h5" gutterBottom align="center" color="secondary">Bulk Sale</Typography>
         <Typography variant="body2" color="textSecondary" align="center">Sales Date & Time: {formData.salesDateTime}</Typography>
 
-        {/* Notification and Print options */}
         <Box sx={{ position: 'absolute', top: 16, right: 16, display: 'flex', gap: 1 }}>
-          <IconButton onClick={handleSendNotification} sx={{color:'#370140'}}>
+          <IconButton onClick={handleSendNotification} sx={{ color: '#370140' }}>
             <SendIcon />
           </IconButton>
-          <IconButton onClick={handlePrint} sx={{color:'#370140'}}>
+          <IconButton onClick={handlePrint} sx={{ color: '#370140' }}>
             <PrintIcon />
           </IconButton>
         </Box>
@@ -246,8 +254,10 @@ export default function RetailSaleWithSMS() {
                 onChange={handleChange}
                 margin="normal"
                 variant="outlined"
+                onKeyDown={(e) => handleKeyPress(e, document.getElementById('partyName'))}
               />
               <TextField
+                id="partyName"
                 fullWidth
                 label="Party Name"
                 name="partyName"
@@ -255,8 +265,10 @@ export default function RetailSaleWithSMS() {
                 onChange={handleChange}
                 margin="normal"
                 variant="outlined"
+                onKeyDown={(e) => handleKeyPress(e, document.getElementById('partyMobileNumber'))}
               />
               <TextField
+                id="partyMobileNumber"
                 fullWidth
                 label="Mobile Number"
                 name="partyMobileNumber"
@@ -265,8 +277,10 @@ export default function RetailSaleWithSMS() {
                 margin="normal"
                 type="tel"
                 variant="outlined"
+                onKeyDown={(e) => handleKeyPress(e, document.getElementById('partyAddress'))}
               />
               <TextField
+                id="partyAddress"
                 fullWidth
                 multiline
                 rows={1}
@@ -276,8 +290,10 @@ export default function RetailSaleWithSMS() {
                 onChange={handleChange}
                 margin="normal"
                 variant="outlined"
+                onKeyDown={(e) => handleKeyPress(e, document.getElementById('partyGSTNumber'))}
               />
               <TextField
+                id="partyGSTNumber"
                 fullWidth
                 label="GST Number"
                 name="partyGSTNumber"
@@ -285,6 +301,7 @@ export default function RetailSaleWithSMS() {
                 onChange={handleChange}
                 margin="normal"
                 variant="outlined"
+                onKeyDown={(e) => handleKeyPress(e, document.getElementById('barcodeNumber'))}
               />
             </Grid>
 
@@ -292,6 +309,7 @@ export default function RetailSaleWithSMS() {
             <Grid item xs={12} md={6}>
               <Typography variant="subtitle1" gutterBottom color="textPrimary">Item Information</Typography>
               <TextField
+                id="barcodeNumber"
                 fullWidth
                 label="Barcode Number"
                 name="barcodeNumber"
@@ -299,8 +317,10 @@ export default function RetailSaleWithSMS() {
                 onChange={handleChange}
                 margin="normal"
                 variant="outlined"
+                onKeyDown={(e) => handleKeyPress(e, document.getElementById('itemName'))}
               />
               <TextField
+                id="itemName"
                 fullWidth
                 label="Item Name"
                 name="itemName"
@@ -308,8 +328,10 @@ export default function RetailSaleWithSMS() {
                 onChange={handleChange}
                 margin="normal"
                 variant="outlined"
+                onKeyDown={(e) => handleKeyPress(e, document.getElementById('unit'))}
               />
               <TextField
+                id="unit"
                 fullWidth
                 label="Unit"
                 name="unit"
@@ -317,8 +339,10 @@ export default function RetailSaleWithSMS() {
                 onChange={handleChange}
                 margin="normal"
                 variant="outlined"
+                onKeyDown={(e) => handleKeyPress(e, document.getElementById('unitPrice'))}
               />
               <TextField
+                id="unitPrice"
                 fullWidth
                 label="Unit Price"
                 name="unitPrice"
@@ -327,32 +351,34 @@ export default function RetailSaleWithSMS() {
                 margin="normal"
                 type="number"
                 variant="outlined"
+                onKeyDown={(e) => handleKeyPress(e, document.getElementById('tax'))}
               />
             </Grid>
 
             {/* Pricing and Tax */}
             <Grid item xs={12} md={6}>
               <Typography variant="subtitle1" gutterBottom color="textPrimary">Pricing and Tax</Typography>
-              
-                
-                <TextField
-                  fullWidth
-                  label="Tax (%)"
-                  name="tax"
-                  value={formData.tax}
-                  onChange={handleChange}
-                  margin="normal"
-                  type="number"
-                  variant="outlined"
-                />
-              
+              <TextField
+                id="tax"
+                fullWidth
+                label="Tax (%)"
+                name="tax"
+                value={formData.tax}
+                onChange={handleChange}
+                margin="normal"
+                type="number"
+                variant="outlined"
+                onKeyDown={(e) => handleKeyPress(e, document.getElementById('isDiscountApplicable'))}
+              />
               <FormControl fullWidth margin="normal" variant="outlined">
                 <InputLabel>Apply Discount</InputLabel>
                 <Select
+                  id="isDiscountApplicable"
                   name="isDiscountApplicable"
                   value={isDiscountApplicable ? 'true' : 'false'}
                   onChange={(e) => setIsDiscountApplicable(e.target.value === 'true')}
                   label="Apply Discount"
+                  onKeyDown={(e) => handleKeyPress(e, document.getElementById('discount'))}
                 >
                   <MenuItem value="false">No</MenuItem>
                   <MenuItem value="true">Yes</MenuItem>
@@ -360,6 +386,7 @@ export default function RetailSaleWithSMS() {
               </FormControl>
               {isDiscountApplicable && (
                 <TextField
+                  id="discount"
                   fullWidth
                   label="Discount (%)"
                   name="discount"
@@ -368,16 +395,16 @@ export default function RetailSaleWithSMS() {
                   margin="normal"
                   type="number"
                   variant="outlined"
+                  onKeyDown={(e) => handleKeyPress(e, document.getElementById('totalPrice'))}
                 />
               )}
-              
-              <Divider sx={{ my: 2 }} />
-              <Typography variant="h6" align="center">Total Price: ₹{formData.totalPrice}</Typography>
+              <Divider sx={{ my: 1 }} />
+
             </Grid>
 
             {/* Payment Method and Narration */}
-            <Grid item xs={12} md={6}>
-              <Typography variant="subtitle1" gutterBottom color="textPrimary">Payment and Narration</Typography>
+            
+            <Grid item xs={10} md={6}>
               <FormControl fullWidth margin="normal" variant="outlined">
                 <InputLabel>Payment Method</InputLabel>
                 <Select
@@ -385,14 +412,15 @@ export default function RetailSaleWithSMS() {
                   value={formData.paymentMethod}
                   onChange={handleChange}
                   label="Payment Method"
+                  onKeyDown={(e) => handleKeyPress(e, document.getElementById('narration'))}
                 >
                   <MenuItem value="Cash">Cash</MenuItem>
-                  <MenuItem value="Debit">Debit</MenuItem>
                   <MenuItem value="Credit">Credit</MenuItem>
-                  <MenuItem value="Upi">UPI</MenuItem>
+                  <MenuItem value="Debit">Debit</MenuItem>
                 </Select>
               </FormControl>
               <TextField
+                id="narration"
                 fullWidth
                 label="Narration"
                 name="narration"
@@ -402,19 +430,23 @@ export default function RetailSaleWithSMS() {
                 multiline
                 rows={3}
                 variant="outlined"
+                onKeyDown={(e) => handleKeyPress(e, null)} // No next input
               />
             </Grid>
           </Grid>
+          <Typography variant="h6" align="center">Total Price: ₹{formData.totalPrice}</Typography>
+          
 
-          <Box sx={{ mt: 3 }}>
-            <Button
-              fullWidth
-              type="submit"
-              variant="contained"
-              color="secondary"
-            >
-              Submit
-            </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+          <Button
+                type="submit"
+                variant="contained"
+                color="secondary"
+                fullWidth
+                sx={{ mt: 2 }}
+              >
+                Submit
+              </Button>
           </Box>
         </Box>
       </Paper>

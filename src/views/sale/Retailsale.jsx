@@ -1,6 +1,8 @@
-import React, { useState,useEffect } from 'react';
+
+
+import React, { useState, useEffect, useRef } from 'react';
 import {
-  Box, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Container, Paper, Grid,  IconButton,InputAdornment
+  Box, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Container, Paper, Grid, IconButton, InputAdornment
 } from '@mui/material';
 import { Send as SendIcon, Print as PrintIcon } from '@mui/icons-material';
 import dayjs from 'dayjs';
@@ -22,8 +24,9 @@ export default function RetailSale() {
   });
 
   const [isDiscountApplicable, setIsDiscountApplicable] = useState(false);
-
   const salesDateTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+  
+  const inputRefs = useRef([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,6 +35,7 @@ export default function RetailSale() {
       [name]: value
     }, calculateTotalPrice);
   };
+
   useEffect(() => {
     calculateTotalPrice();
   }, [formData.unitPrice, formData.tax, formData.discount, isDiscountApplicable]);
@@ -60,9 +64,7 @@ export default function RetailSale() {
     alert('Notification sent!');
   };
 
- 
-
-  const handlePrint = () => {
+    const handlePrint = () => {
     const printWindow = window.open('', '', 'height=600,width=800');
     const printContent = `
       <html>
@@ -158,6 +160,17 @@ export default function RetailSale() {
     printWindow.print();
   };
   
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent form submission
+      const nextIndex = index + 1;
+      if (nextIndex < inputRefs.current.length) {
+        inputRefs.current[nextIndex].focus(); // Move focus to the next input
+      }
+    }
+  };
+
   return (
     <Container maxWidth="md" sx={{ backgroundColor: '#f9dff5', position: 'relative' }}>
       <Paper sx={{ p: 3, backgroundColor: '#f9dff5' }} elevation={0}>
@@ -176,8 +189,6 @@ export default function RetailSale() {
 
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
           <Grid container spacing={2}>
-           
-
             {/* Item Information */}
             <Grid item xs={12} md={6}>
               <Typography variant="subtitle1" gutterBottom color="textPrimary">Item Information</Typography>
@@ -189,7 +200,8 @@ export default function RetailSale() {
                 onChange={handleChange}
                 margin="normal"
                 variant="outlined"
-                
+                inputRef={el => (inputRefs.current[0] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 0)}
               />
               <TextField
                 fullWidth
@@ -199,7 +211,8 @@ export default function RetailSale() {
                 onChange={handleChange}
                 margin="normal"
                 variant="outlined"
-            
+                inputRef={el => (inputRefs.current[1] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 1)}
               />
               <TextField
                 fullWidth
@@ -209,7 +222,8 @@ export default function RetailSale() {
                 onChange={handleChange}
                 margin="normal"
                 variant="outlined"
-                
+                inputRef={el => (inputRefs.current[2] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 2)}
               />
               <TextField
                 fullWidth
@@ -220,11 +234,13 @@ export default function RetailSale() {
                 margin="normal"
                 type="number"
                 variant="outlined"
-                
+                inputRef={el => (inputRefs.current[3] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 3)}
               />
             </Grid>
-             {/* Customer Information */}
-             <Grid item xs={12} md={6}>
+
+            {/* Customer Information */}
+            <Grid item xs={12} md={6}>
               <Typography variant="subtitle1" gutterBottom color="textPrimary">Customer Information</Typography>
               <TextField
                 fullWidth
@@ -234,7 +250,8 @@ export default function RetailSale() {
                 onChange={handleChange}
                 margin="normal"
                 variant="outlined"
-               
+                inputRef={el => (inputRefs.current[4] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 4)}
               />
               <TextField
                 fullWidth
@@ -245,7 +262,8 @@ export default function RetailSale() {
                 margin="normal"
                 type="tel"
                 variant="outlined"
-                
+                inputRef={el => (inputRefs.current[5] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 5)}
               />
               <TextField
                 fullWidth
@@ -257,7 +275,8 @@ export default function RetailSale() {
                 onChange={handleChange}
                 margin="normal"
                 variant="outlined"
-                
+                inputRef={el => (inputRefs.current[6] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 6)}
               />
             </Grid>
 
@@ -273,7 +292,8 @@ export default function RetailSale() {
                 margin="normal"
                 type="number"
                 variant="outlined"
-               
+                inputRef={el => (inputRefs.current[7] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 7)}
               />
               <FormControl fullWidth margin="normal" variant="outlined">
                 <InputLabel>Discount Applicable</InputLabel>
@@ -297,7 +317,8 @@ export default function RetailSale() {
                   margin="normal"
                   type="number"
                   variant="outlined"
-                  
+                  inputRef={el => (inputRefs.current[8] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, 8)}
                 />
               )}
               <TextField
@@ -311,7 +332,8 @@ export default function RetailSale() {
                   startAdornment: <InputAdornment position="start">₹</InputAdornment>,
                 }}
                 variant="outlined"
-              
+                inputRef={el => (inputRefs.current[9] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 9)}
               />
             </Grid>
 
@@ -329,7 +351,6 @@ export default function RetailSale() {
                   <MenuItem value="Cash">Cash</MenuItem>
                   <MenuItem value="Credit Card">Credit Card</MenuItem>
                   <MenuItem value="Debit Card">Debit Card</MenuItem>
-                  <MenuItem value="Upi">UPI</MenuItem>
                 </Select>
               </FormControl>
               <TextField
@@ -342,13 +363,12 @@ export default function RetailSale() {
                 onChange={handleChange}
                 margin="normal"
                 variant="outlined"
-                
+                inputRef={el => (inputRefs.current[10] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 10)}
               />
             </Grid>
-
-            {/* Submit Button */}
-            <Grid item xs={12}>
-              <Button
+          </Grid>
+          <Button
                 type="submit"
                 variant="contained"
                 color="secondary"
@@ -357,8 +377,6 @@ export default function RetailSale() {
               >
                 Submit
               </Button>
-            </Grid>
-          </Grid>
         </Box>
       </Paper>
     </Container>
