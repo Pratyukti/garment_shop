@@ -344,21 +344,21 @@ const menuItems = {
       children: [
         {
           id: 'sales',
-          title: 'Sales',
+          title: 'SALES',
           type: 'collapse',
           icon: 'feather icon-box',
           children: [
             {
               id: 'button',
-              title: 'Retail Sale',
+              title: 'Retail Sales',
               type: 'item',
-              url: '/sale/Retailsale'
+              url: '/forms/Retailsales'
             },
             {
               id: 'badges',
               title: 'Bulk Sale',
               type: 'item',
-              url: 'sale/Bulksale'
+              url: '/sale/Bulksale'
             },
             {
               id: 'breadcrumb',
@@ -373,13 +373,13 @@ const menuItems = {
     },
     
     {
-      id: 'report',
+      id: 'reports',
       title: 'REPORT SECTION',
       type: 'group',
       icon: 'icon-ui',
       children: [
         {
-          id: 'report',
+          id: 'reports',
           title: 'REPORTS',
           type: 'collapse',
           icon: 'feather icon-box',
@@ -388,13 +388,19 @@ const menuItems = {
               id: 'button',
               title: 'Sales Report',
               type: 'item',
-              url: '/basic/button'
+              url: '/reports/salesreports'
             },
             {
               id: 'badges',
               title: 'Saletax Report',
               type: 'item',
-              url: '/basic/badges'
+              url: '/reports/salestaxreports'
+            },
+            {
+              id: 'badges',
+              title: 'Stock Report',
+              type: 'item',
+              url: '/reports/stockreport'
             },
             {
               id: 'breadcrumb',
