@@ -1,0 +1,324 @@
+import React, { useState } from 'react';
+import {
+  Box, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Container, Paper, Grid, Divider, IconButton
+} from '@mui/material';
+import { Send as SendIcon, Print as PrintIcon } from '@mui/icons-material';
+import dayjs from 'dayjs';
+
+export default function RetailSale() {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    number: '',
+    address: '',
+    barcode: '',
+    itemName: '',
+    unit: '',
+    unitPrice: '',
+    tax: '',
+    discount: '',
+    totalPrice: '',
+    paymentMethod: 'Cash',
+    narration: ''
+  });
+
+  const [isDiscountApplicable, setIsDiscountApplicable] = useState(false);
+
+  const salesDateTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    }, calculateTotalPrice);
+  };
+
+  const calculateTotalPrice = () => {
+    const unitPrice = parseFloat(formData.unitPrice) || 0;
+    const tax = parseFloat(formData.tax) || 0;
+    const discount = parseFloat(formData.discount) || 0;
+
+    const taxAmount = (unitPrice * tax) / 100;
+    const discountAmount = isDiscountApplicable ? (unitPrice * discount) / 100 : 0;
+    const totalPrice = unitPrice + taxAmount - discountAmount;
+
+    setFormData((prev) => ({
+      ...prev,
+      totalPrice: totalPrice.toFixed(2)
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+  };
+
+  const handleSendNotification = () => {
+    alert('Notification sent!');
+  };
+
+  const handlePrint = () => {
+    const printWindow = window.open('', '', 'height=600,width=800');
+    const printContent = `
+      <html>
+      <head>
+        <title>Invoice</title>
+        <style>
+          body { font-family: Arial, sans-serif; }
+          .invoice { width: 100%; max-width: 600px; margin: auto; }
+          .header, .footer { text-align: center; padding: 10px; }
+          .section { margin-bottom: 20px; }
+          .section h2 { margin: 0; }
+          .section p { margin: 5px 0; }
+          .table { width: 100%; border-collapse: collapse; }
+          .table th, .table td { border: 1px solid #ddd; padding: 8px; }
+          .table th { background-color: #f2f2f2; }
+        </style>
+      </head>
+      <body>
+        <div class="invoice">
+          <div class="header">
+            <h1>Retail Sale Receipt</h1>
+            <p>${salesDateTime}</p>
+          </div>
+          <div class="section">
+            <h2>Customer Information</h2>
+            <p><strong>Full Name:</strong> ${formData.fullName}</p>
+            <p><strong>Number:</strong> ${formData.number}</p>
+            <p><strong>Address:</strong> ${formData.address}</p>
+          </div>
+          <div class="section">
+            <h2>Item Information</h2>
+            <p><strong>Barcode:</strong> ${formData.barcode}</p>
+            <p><strong>Item Name:</strong> ${formData.itemName}</p>
+            <p><strong>Unit:</strong> ${formData.unit}</p>
+            <p><strong>Unit Price:</strong> ${formData.unitPrice}</p>
+          </div>
+          <div class="section">
+            <h2>Pricing and Tax</h2>
+            <p><strong>Tax (%):</strong> ${formData.tax}</p>
+            ${isDiscountApplicable ? `<p><strong>Discount (%):</strong> ${formData.discount}</p>` : ''}
+            <p><strong>Total Price:</strong> ${formData.totalPrice}</p>
+          </div>
+          <div class="section">
+            <h2>Payment and Narration</h2>
+            <p><strong>Payment Method:</strong> ${formData.paymentMethod}</p>
+            <p><strong>Narration:</strong> ${formData.narration}</p>
+          </div>
+          <div class="footer">
+            <p>Thank you for your purchase!</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+    printWindow.document.open();
+    printWindow.document.write(printContent);
+    printWindow.document.close();
+    printWindow.print();
+  };
+
+  return (
+    <Container maxWidth="md" sx={{ backgroundColor: '#f9dff5', position: 'relative' }}>
+      <Paper sx={{ p: 3, backgroundColor: '#f9dff5' }} elevation={0}>
+        <Typography variant="h5" gutterBottom align="center" color="secondary">Retail Sale</Typography>
+        <Typography variant="body2" color="textSecondary" align="center">Sales Date & Time: {salesDateTime}</Typography>
+
+        {/* Notification and Print options */}
+        <Box sx={{ position: 'absolute', top: 16, right: 16, display: 'flex', gap: 1 }}>
+          <IconButton onClick={handleSendNotification} sx={{ color: '#370140' }}>
+            <SendIcon />
+          </IconButton>
+          <IconButton onClick={handlePrint} sx={{ color: '#370140' }}>
+            <PrintIcon />
+          </IconButton>
+        </Box>
+
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+          <Grid container spacing={2}>
+           
+
+            {/* Item Information */}
+            <Grid item xs={12} md={6}>
+              <Typography variant="subtitle1" gutterBottom color="textPrimary">Item Information</Typography>
+              <TextField
+                fullWidth
+                label="Barcode"
+                name="barcode"
+                value={formData.barcode}
+                onChange={handleChange}
+                margin="normal"
+                variant="outlined"
+                
+              />
+              <TextField
+                fullWidth
+                label="Item Name"
+                name="itemName"
+                value={formData.itemName}
+                onChange={handleChange}
+                margin="normal"
+                variant="outlined"
+            
+              />
+              <TextField
+                fullWidth
+                label="Unit"
+                name="unit"
+                value={formData.unit}
+                onChange={handleChange}
+                margin="normal"
+                variant="outlined"
+                
+              />
+              <TextField
+                fullWidth
+                label="Unit Price"
+                name="unitPrice"
+                value={formData.unitPrice}
+                onChange={handleChange}
+                margin="normal"
+                type="number"
+                variant="outlined"
+                
+              />
+            </Grid>
+             {/* Customer Information */}
+             <Grid item xs={12} md={6}>
+              <Typography variant="subtitle1" gutterBottom color="textPrimary">Customer Information</Typography>
+              <TextField
+                fullWidth
+                label="Full Name"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                margin="normal"
+                variant="outlined"
+               
+              />
+              <TextField
+                fullWidth
+                label="Number"
+                name="number"
+                value={formData.number}
+                onChange={handleChange}
+                margin="normal"
+                type="tel"
+                variant="outlined"
+                
+              />
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                label="Address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                margin="normal"
+                variant="outlined"
+                
+              />
+            </Grid>
+
+            {/* Pricing and Tax */}
+            <Grid item xs={12} md={6}>
+              <Typography variant="subtitle1" gutterBottom color="textPrimary">Pricing and Tax</Typography>
+              <TextField
+                fullWidth
+                label="Tax (%)"
+                name="tax"
+                value={formData.tax}
+                onChange={handleChange}
+                margin="normal"
+                type="number"
+                variant="outlined"
+               
+              />
+              <FormControl fullWidth margin="normal" variant="outlined">
+                <InputLabel>Discount Applicable</InputLabel>
+                <Select
+                  name="isDiscountApplicable"
+                  value={isDiscountApplicable ? 'Yes' : 'No'}
+                  onChange={(e) => setIsDiscountApplicable(e.target.value === 'Yes')}
+                  label="Discount Applicable"
+                >
+                  <MenuItem value="No">No</MenuItem>
+                  <MenuItem value="Yes">Yes</MenuItem>
+                </Select>
+              </FormControl>
+              {isDiscountApplicable && (
+                <TextField
+                  fullWidth
+                  label="Discount (%)"
+                  name="discount"
+                  value={formData.discount}
+                  onChange={handleChange}
+                  margin="normal"
+                  type="number"
+                  variant="outlined"
+                  
+                />
+              )}
+              <TextField
+                fullWidth
+                label="Total Price"
+                name="totalPrice"
+                value={formData.totalPrice}
+                margin="normal"
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="outlined"
+              
+              />
+            </Grid>
+
+            {/* Payment and Narration */}
+            <Grid item xs={12} md={6}>
+              <Typography variant="subtitle1" gutterBottom color="textPrimary">Payment and Narration</Typography>
+              <FormControl fullWidth margin="normal" variant="outlined">
+                <InputLabel>Payment Method</InputLabel>
+                <Select
+                  name="paymentMethod"
+                  value={formData.paymentMethod}
+                  onChange={handleChange}
+                  label="Payment Method"
+                >
+                  <MenuItem value="Cash">Cash</MenuItem>
+                  <MenuItem value="Credit Card">Credit Card</MenuItem>
+                  <MenuItem value="Debit Card">Debit Card</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                label="Narration"
+                name="narration"
+                value={formData.narration}
+                onChange={handleChange}
+                margin="normal"
+                variant="outlined"
+                
+              />
+            </Grid>
+
+            {/* Submit Button */}
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="secondary"
+                fullWidth
+                sx={{ mt: 2 }}
+              >
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Paper>
+    </Container>
+  );
+}

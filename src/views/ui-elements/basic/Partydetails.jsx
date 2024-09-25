@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  TextField,Button,Box,CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper,
+  TextField, Button, Box, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, MenuItem, Select, InputLabel, FormControl
 } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
@@ -20,6 +20,8 @@ export default function PartyReport() {
   const [loading, setLoading] = useState({ add: false });
   const [open, setOpen] = useState(false); // State to control dialog visibility
   const [editIndex, setEditIndex] = useState(null); // Track index of the party being edited
+  const [deleteIndex, setDeleteIndex] = useState(null); // Track index for deletion confirmation
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false); // State to control delete confirmation dialog
 
   const handleChange = (e) => {
     setPartyDetails({
@@ -74,9 +76,19 @@ export default function PartyReport() {
   };
 
   const handleDelete = (index) => {
-    const updatedList = partyList.filter((_, i) => i !== index); // Remove the selected party
+    setDeleteIndex(index); // Set the index of the party to be deleted
+    setOpenDeleteDialog(true); // Open the delete confirmation dialog
+  };
+
+  const confirmDelete = () => {
+    const updatedList = partyList.filter((_, i) => i !== deleteIndex); // Remove the selected party
     setPartyList(updatedList);
-    console.log("Deleted party at index", index);
+    setOpenDeleteDialog(false); // Close the confirmation dialog
+    console.log("Deleted party at index", deleteIndex);
+  };
+
+  const cancelDelete = () => {
+    setOpenDeleteDialog(false); // Close the confirmation dialog without deleting
   };
 
   return (
@@ -92,6 +104,21 @@ export default function PartyReport() {
         <DialogContent style={{backgroundColor:'#f9dff5'}}>
           <Paper sx={{ padding: "10px" , backgroundColor: "#f9dff5"}} elevation={0}>
             <form>
+            {/* Party Type */}
+            <FormControl fullWidth margin="normal" required>
+                <InputLabel>Party Type</InputLabel>
+                <Select
+                  value={partyDetails.party_type}
+                  name="party_type"
+                  onChange={handleChange}
+                  label="Party Type"
+                >
+                  <MenuItem value="Vendor">Vendor</MenuItem>
+                  <MenuItem value="Supplier">Supplier</MenuItem>
+                  <MenuItem value="Customer">Customer</MenuItem>
+                </Select>
+              </FormControl>
+
               {/* Party Name */}
               <TextField
                 fullWidth
@@ -114,20 +141,7 @@ export default function PartyReport() {
                 required
               />
 
-              {/* Party Type */}
-              <FormControl fullWidth margin="normal" required>
-                <InputLabel>Party Type</InputLabel>
-                <Select
-                  value={partyDetails.party_type}
-                  name="party_type"
-                  onChange={handleChange}
-                  label="Party Type"
-                >
-                  <MenuItem value="Vendor">Vendor</MenuItem>
-                  <MenuItem value="Supplier">Supplier</MenuItem>
-                  <MenuItem value="Customer">Customer</MenuItem>
-                </Select>
-              </FormControl>
+            
 
               {/* Phone Number */}
               <TextField
@@ -226,6 +240,16 @@ export default function PartyReport() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={openDeleteDialog} onClose={cancelDelete}>
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>Are you sure you want to delete this party entry?</DialogContent>
+        <DialogActions>
+          <Button onClick={cancelDelete} color="secondary">Cancel</Button>
+          <Button onClick={confirmDelete} color="error">Confirm</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

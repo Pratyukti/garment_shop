@@ -19,6 +19,10 @@ export default function FinancialYearForm() {
   const [open, setOpen] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
 
+  // State for the delete confirmation dialog
+  const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(null);
+
   useEffect(() => {
     // Automatically generate the financial year name based on the selected start and end dates
     if (financialYearDetails.startDate && financialYearDetails.endDate) {
@@ -78,10 +82,18 @@ export default function FinancialYearForm() {
     setOpen(true);
   };
 
-  const handleDelete = (index) => {
-    const updatedList = financialYearList.filter((_, i) => i !== index);
+  // Open delete confirmation dialog
+  const handleOpenDeleteConfirm = (index) => {
+    setDeleteIndex(index);
+    setOpenDeleteConfirm(true);
+  };
+
+  // Confirm delete and remove the item from the list
+  const handleDelete = () => {
+    const updatedList = financialYearList.filter((_, i) => i !== deleteIndex);
     setFinancialYearList(updatedList);
-    console.log("Deleted financial year at index", index);
+    console.log("Deleted financial year at index", deleteIndex);
+    setOpenDeleteConfirm(false);
   };
 
   return (
@@ -196,7 +208,7 @@ export default function FinancialYearForm() {
                   <IconButton color="secondary" onClick={() => handleEdit(index)}>
                     <Edit />
                   </IconButton>
-                  <IconButton color="error" onClick={() => handleDelete(index)}>
+                  <IconButton color="error" onClick={() => handleOpenDeleteConfirm(index)}>
                     <Delete />
                   </IconButton>
                 </TableCell>
@@ -205,6 +217,20 @@ export default function FinancialYearForm() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={openDeleteConfirm} onClose={() => setOpenDeleteConfirm(false)}>
+        <DialogTitle>Delete Financial Year</DialogTitle>
+        <DialogContent>Are you sure you want to delete this financial year?</DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDeleteConfirm(false)} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleDelete} color="error">
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

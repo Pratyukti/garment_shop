@@ -230,18 +230,46 @@ const routes = [
       },
       {
         exact: 'true',
+        path: '/basic/financialyeardetails',
+        element: lazy(() => import('./views/ui-elements/basic/Financialyeardetails'))
+      },
+      {
+        exact: 'true',
         path: '/basic/barcodedetails',
         element: lazy(() => import('./views/ui-elements/BarcodeDetails'))
       },
       {
         exact: 'true',
+
         path: '/forms/Retailsales',
-        element: lazy(() => import('./views/sales/Retailsales'))
+        element: lazy(() => import('./views/sale/Retailsale'))
       },
       {
         exact: 'true',
-        path: '/tables/bootstrap',
-        element: lazy(() => import('./views/tables/BootstrapTable'))
+
+        path: '/sale/Bulksale',
+        element: lazy(() => import('./views/sale/Bulksale'))
+      },
+      {
+        exact: 'true',
+
+        path: '/sale/bulksalereturn',
+        element: lazy(() => import('./views/sale/Bulksalereturn'))
+      },
+      {
+        exact: 'true',
+        path: '/reports/salesreports',
+        element: lazy(() => import('./views/reports/salesreports'))
+      },
+      {
+        exact: 'true',
+        path: '/reports/salestaxreports',
+        element: lazy(() => import('./views/reports/SaletaxReport'))
+      },
+      {
+        exact: 'true',
+        path: '/reports/stockreport',
+        element: lazy(() => import('./views/reports/StockReport'))
       },
       {
         exact: 'true',

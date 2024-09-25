@@ -67,7 +67,7 @@ export default function StockEntry() {
 
   return (
     <div>
-      <Box sx={{ backgroundColor: 'white', padding: '20px' }}>
+      <Box sx={{ backgroundColor: '#f9dff5', padding: '20px' }}>
         <TextField
           label="Barcode"
           value={barcode}
@@ -83,7 +83,7 @@ export default function StockEntry() {
           sx={{ margin: '5px' }}
         />
         
-        <Button onClick={handleItemSearch} variant="contained" color="primary" sx={{ marginTop: '30px', margin: '5px' }}>
+        <Button onClick={handleItemSearch} variant="contained" color="secondary" sx={{ marginTop: '30px', margin: '5px' }}>
           Search
         </Button>
         {error && <Alert severity="error">{error}</Alert>}
@@ -102,7 +102,7 @@ export default function StockEntry() {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: 400,
-            bgcolor: 'background.paper',
+            bgcolor: '#f9dff5',
             border: '2px solid #000',
             boxShadow: 24,
             p: 4,
@@ -150,11 +150,11 @@ export default function StockEntry() {
             margin="normal"
             fullWidth
           />
-          <Button onClick={handleModalSubmit} variant="contained" color="primary">
+          <Button onClick={handleModalSubmit} variant="contained" color="secondary">
             Save
           </Button>
         </Box>
-      </Modal>
+      </Modal><br/>
 
       {/* <Button onClick={handleSaveEntries} variant="contained" color="secondary">
         Save

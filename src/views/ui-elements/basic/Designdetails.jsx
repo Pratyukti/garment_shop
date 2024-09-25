@@ -22,6 +22,8 @@ export default function DesignReport() {
   const [loading, setLoading] = useState({ add: false });
   const [open, setOpen] = useState(false); // State to control dialog visibility
   const [editIndex, setEditIndex] = useState(null); // Track index of the design being edited
+  const [confirmOpen, setConfirmOpen] = useState(false); // State for delete confirmation dialog
+  const [deleteIndex, setDeleteIndex] = useState(null); // Index of the design to be deleted
 
   const handleChange = (e) => {
     setDesignDetails({
@@ -72,10 +74,20 @@ export default function DesignReport() {
     setOpen(true); // Open the dialog to edit
   };
 
-  const handleDelete = (index) => {
-    const updatedList = designList.filter((_, i) => i !== index); // Remove the selected design
+  const handleDeleteClick = (index) => {
+    setDeleteIndex(index); // Set the index of the design to be deleted
+    setConfirmOpen(true); // Open the confirmation dialog
+  };
+
+  const handleDeleteConfirm = () => {
+    const updatedList = designList.filter((_, i) => i !== deleteIndex); // Remove the selected design
     setDesignList(updatedList);
-    console.log("Deleted design at index", index);
+    setConfirmOpen(false); // Close confirmation dialog
+    console.log("Deleted design at index", deleteIndex);
+  };
+
+  const handleDeleteCancel = () => {
+    setConfirmOpen(false); // Close the confirmation dialog without deleting
   };
 
   return (
@@ -87,9 +99,9 @@ export default function DesignReport() {
 
       {/* Dialog (Popup) Form */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle style={{backgroundColor:'#f9dff5'}}>{editIndex !== null ? 'Edit Design Details' : 'Add Design Details'}</DialogTitle>
-        <DialogContent style={{backgroundColor:'#f9dff5'}}>
-          <Paper sx={{ padding: "10px" , backgroundColor: "#f9dff5"}} elevation={0}>
+        <DialogTitle style={{ backgroundColor: '#f9dff5' }}>{editIndex !== null ? 'Edit Design Details' : 'Add Design Details'}</DialogTitle>
+        <DialogContent style={{ backgroundColor: '#f9dff5' }}>
+          <Paper sx={{ padding: "10px", backgroundColor: "#f9dff5" }} elevation={0}>
             <form>
               <TextField
                 fullWidth
@@ -134,16 +146,29 @@ export default function DesignReport() {
                 onChange={handleChange}
                 margin="normal"
               />
-              
             </form>
           </Paper>
         </DialogContent>
-        <DialogActions style={{backgroundColor:'#f9dff5'}}>
+        <DialogActions style={{ backgroundColor: '#f9dff5' }}>
           <Button onClick={handleClose} color="error">
             Cancel
           </Button>
           <Button onClick={handleAddOrUpdate} color="secondary" disabled={loading.add}>
             {loading.add ? <CircularProgress size={24} /> : editIndex !== null ? 'Update' : 'Add'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Confirmation Dialog for Delete */}
+      <Dialog open={confirmOpen} onClose={handleDeleteCancel}>
+        <DialogTitle>Delete Confirmation</DialogTitle>
+        <DialogContent>Are you sure to delete?</DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteCancel} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteConfirm} color="error">
+            Confirm
           </Button>
         </DialogActions>
       </Dialog>
@@ -155,7 +180,6 @@ export default function DesignReport() {
             <TableRow>
               <TableCell>Design Name</TableCell>
               <TableCell>Design Code</TableCell>
-              
               <TableCell>Associated Items</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Actions</TableCell>
@@ -166,14 +190,13 @@ export default function DesignReport() {
               <TableRow key={index}>
                 <TableCell>{design.design_name}</TableCell>
                 <TableCell>{design.design_code}</TableCell>
-                
                 <TableCell>{design.associated_items}</TableCell>
                 <TableCell>{design.description}</TableCell>
                 <TableCell>
                   <IconButton color="secondary" onClick={() => handleEdit(index)}>
                     <Edit />
                   </IconButton>
-                  <IconButton color="error" onClick={() => handleDelete(index)}>
+                  <IconButton color="error" onClick={() => handleDeleteClick(index)}>
                     <Delete />
                   </IconButton>
                 </TableCell>

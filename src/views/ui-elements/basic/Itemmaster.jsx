@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import {
+  TextField, Button, Box, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, MenuItem, Select, InputLabel, FormControl
+} from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 
 export default function Itemmaster() {
@@ -13,15 +16,17 @@ export default function Itemmaster() {
     description: ''
   });
 
-  const [itemList, setItemList] = useState([]); // List to hold all item entries
+  const [itemList, setItemList] = useState([]);
   const [categories] = useState([
     { id: 1, name: 'Electronics' },
     { id: 2, name: 'Furniture' },
     { id: 3, name: 'Stationery' }
-  ]); // Example categories
+  ]);
   const [loading, setLoading] = useState({ add: false });
-  const [open, setOpen] = useState(false); // State to control dialog visibility
-  const [editIndex, setEditIndex] = useState(null); // Track index of the item being edited
+  const [open, setOpen] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
+  const [deleteIndex, setDeleteIndex] = useState(null); // Track index of the item being deleted
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // Track delete confirmation dialog
 
   const handleChange = (e) => {
     setItemDetails({
@@ -31,12 +36,12 @@ export default function Itemmaster() {
   };
 
   const handleClickOpen = () => {
-    setOpen(true); // Open the dialog when "Add Item" button is clicked
-    setEditIndex(null); // Reset the edit index
+    setOpen(true);
+    setEditIndex(null);
   };
 
   const handleClose = () => {
-    setOpen(false); // Close the dialog when "Cancel" button is clicked
+    setOpen(false);
   };
 
   const handleAddOrUpdate = async (e) => {
@@ -44,18 +49,15 @@ export default function Itemmaster() {
     setLoading({ ...loading, add: true });
 
     if (editIndex !== null) {
-      // Update logic
       const updatedList = [...itemList];
       updatedList[editIndex] = itemDetails;
       setItemList(updatedList);
       console.log("Updated", itemDetails);
     } else {
-      // Add logic
       setItemList([...itemList, itemDetails]);
       console.log("Added", itemDetails);
     }
 
-    // Reset the form and state
     setLoading({ ...loading, add: false });
     setItemDetails({
       item_name: '',
@@ -66,19 +68,29 @@ export default function Itemmaster() {
       stock_quantity: '',
       description: ''
     });
-    setOpen(false); // Close the dialog after adding or updating
+    setOpen(false);
   };
 
   const handleEdit = (index) => {
-    setItemDetails(itemList[index]); // Populate form with the selected item's details
-    setEditIndex(index); // Set the index of the item being edited
-    setOpen(true); // Open the dialog to edit
+    setItemDetails(itemList[index]);
+    setEditIndex(index);
+    setOpen(true);
   };
 
-  const handleDelete = (index) => {
-    const updatedList = itemList.filter((_, i) => i !== index); // Remove the selected item
+  const handleDeleteDialogOpen = (index) => {
+    setDeleteIndex(index); // Set the index of the item to delete
+    setDeleteDialogOpen(true); // Open the delete confirmation dialog
+  };
+
+  const handleDeleteDialogClose = () => {
+    setDeleteDialogOpen(false);
+  };
+
+  const handleConfirmDelete = () => {
+    const updatedList = itemList.filter((_, i) => i !== deleteIndex);
     setItemList(updatedList);
-    console.log("Deleted item at index", index);
+    setDeleteDialogOpen(false); // Close the confirmation dialog
+    console.log("Deleted item at index", deleteIndex);
   };
 
   return (
@@ -90,9 +102,9 @@ export default function Itemmaster() {
 
       {/* Dialog (Popup) Form */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle style={{backgroundColor:'#f9dff5'}}>{editIndex !== null ? 'Edit Item Details' : 'Add Item Details'}</DialogTitle>
-        <DialogContent style={{backgroundColor:'#f9dff5'}}>
-          <Paper sx={{ padding: "10px" , backgroundColor: "#f9dff5"}} elevation={0}>
+        <DialogTitle style={{ backgroundColor: '#f9dff5' }}>{editIndex !== null ? 'Edit Item Details' : 'Add Item Details'}</DialogTitle>
+        <DialogContent style={{ backgroundColor: '#f9dff5' }}>
+          <Paper sx={{ padding: "10px", backgroundColor: "#f9dff5" }} elevation={0}>
             <form>
               <TextField
                 fullWidth
@@ -166,12 +178,26 @@ export default function Itemmaster() {
             </form>
           </Paper>
         </DialogContent>
-        <DialogActions style={{backgroundColor:'#f9dff5'}}>
+        <DialogActions style={{ backgroundColor: '#f9dff5' }}>
           <Button onClick={handleClose} color="error">
             Cancel
           </Button>
           <Button onClick={handleAddOrUpdate} color="secondary" disabled={loading.add}>
             {loading.add ? <CircularProgress size={24} /> : editIndex !== null ? 'Update' : 'Add'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteDialogOpen} onClose={handleDeleteDialogClose}>
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>Are you sure you want to delete this item?</DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteDialogClose} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmDelete} color="error">
+            Confirm
           </Button>
         </DialogActions>
       </Dialog>
@@ -202,10 +228,10 @@ export default function Itemmaster() {
                 <TableCell>{item.stock_quantity}</TableCell>
                 <TableCell>{item.description}</TableCell>
                 <TableCell>
-                  <IconButton color="primary" onClick={() => handleEdit(index)}>
+                  <IconButton color="secondary" onClick={() => handleEdit(index)}>
                     <Edit />
                   </IconButton>
-                  <IconButton color="secondary" onClick={() => handleDelete(index)}>
+                  <IconButton color="error" onClick={() => handleDeleteDialogOpen(index)}>
                     <Delete />
                   </IconButton>
                 </TableCell>

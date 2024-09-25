@@ -61,21 +61,31 @@ import { ListGroup, Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import useWindowSize from '../../../../hooks/useWindowSize'; // adjust the path accordingly
 import PrinterSetting from 'views/settingsmodule/printersetting'; // Import the PrinterSetting component
-import { Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Button } from '@mui/material';
+import UserRole from 'views/settingsmodule/Userrolesetting'; // Import the UserRole component
+import { Dialog, DialogTitle, DialogContent, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close'; // Import CloseIcon
 
 const NavLeft = () => {
   const windowSize = useWindowSize();
-  
-  // Modal open/close state
-  const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  // Modal open/close state for Printer Settings and User Role
+  const [printerOpen, setPrinterOpen] = useState(false);
+  const [userRoleOpen, setUserRoleOpen] = useState(false);
+
+  const handlePrinterOpen = () => {
+    setPrinterOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handlePrinterClose = () => {
+    setPrinterOpen(false);
+  };
+
+  const handleUserRoleOpen = () => {
+    setUserRoleOpen(true);
+  };
+
+  const handleUserRoleClose = () => {
+    setUserRoleOpen(false);
   };
 
   let navItemClass = ['nav-item'];
@@ -94,12 +104,12 @@ const NavLeft = () => {
             <ul>
               <Dropdown.Menu>
                 <li>
-                  <Link to="#" className="dropdown-item" onClick={handleClickOpen}>
+                  <Link to="#" className="dropdown-item" onClick={handlePrinterOpen}>
                     Printer Setting
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="dropdown-item">
+                  <Link to="#" className="dropdown-item" onClick={handleUserRoleOpen}>
                     User Role
                   </Link>
                 </li>
@@ -110,13 +120,13 @@ const NavLeft = () => {
       </ListGroup>
 
       {/* Modal for Printer Settings */}
-      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+      <Dialog open={printerOpen} onClose={handlePrinterClose} maxWidth="sm" fullWidth>
         <DialogTitle>
           Printer Settings
           {/* Close Icon at the top-right corner */}
           <IconButton
             aria-label="close"
-            onClick={handleClose}
+            onClick={handlePrinterClose}
             sx={{
               position: 'absolute',
               right: 8,
@@ -130,10 +140,33 @@ const NavLeft = () => {
         <DialogContent>
           <PrinterSetting /> {/* Display PrinterSetting component */}
         </DialogContent>
-       
+      </Dialog>
+
+      {/* Modal for User Role */}
+      <Dialog open={userRoleOpen} onClose={handleUserRoleClose} maxWidth="sm" fullWidth>
+        <DialogTitle>
+          User Role
+          {/* Close Icon at the top-right corner */}
+          <IconButton
+            aria-label="close"
+            onClick={handleUserRoleClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <UserRole /> {/* Display UserRole component */}
+        </DialogContent>
       </Dialog>
     </React.Fragment>
   );
 };
 
 export default NavLeft;
+
