@@ -160,8 +160,8 @@ export default function RoleForm() {
           </Paper>
         </DialogContent>
         <DialogActions style={{backgroundColor:'#f9dff5'}}>
-          <Button onClick={handleClose} color="secondary">Cancel</Button>
-          <Button onClick={handleAddOrUpdate} color="primary">
+          <Button onClick={handleClose} color="error">Cancel</Button>
+          <Button onClick={handleAddOrUpdate} color="secondary">
             {editIndex !== null ? 'Update' : 'Add'}
           </Button>
         </DialogActions>

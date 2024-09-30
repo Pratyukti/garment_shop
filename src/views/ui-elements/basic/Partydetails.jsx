@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   TextField, Button, Box, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, MenuItem, Select, InputLabel, FormControl
@@ -22,6 +22,15 @@ export default function PartyReport() {
   const [editIndex, setEditIndex] = useState(null); // Track index of the party being edited
   const [deleteIndex, setDeleteIndex] = useState(null); // Track index for deletion confirmation
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false); // State to control delete confirmation dialog
+
+  // Refs for each field
+  const partyNameRef = useRef(null);
+  const partyRegNoRef = useRef(null);
+  const partyTypeRef = useRef(null);
+  const phoneRef = useRef(null);
+  const emailRef = useRef(null);
+  const addressRef = useRef(null);
+  const descriptionRef = useRef(null);
 
   const handleChange = (e) => {
     setPartyDetails({
@@ -91,6 +100,14 @@ export default function PartyReport() {
     setOpenDeleteDialog(false); // Close the confirmation dialog without deleting
   };
 
+  // Function to handle Enter key to move to the next field
+  const handleKeyDown = (e, nextRef) => {
+    if (e.key === 'Enter' && nextRef) {
+      e.preventDefault(); // Prevent form submission
+      nextRef.current.focus(); // Focus the next field
+    }
+  };
+
   return (
     <Box sx={{ maxWidth: '100%', padding: 2 }}>
       {/* Add Party Button */}
@@ -104,14 +121,16 @@ export default function PartyReport() {
         <DialogContent style={{backgroundColor:'#f9dff5'}}>
           <Paper sx={{ padding: "10px" , backgroundColor: "#f9dff5"}} elevation={0}>
             <form>
-            {/* Party Type */}
-            <FormControl fullWidth margin="normal" required>
+              {/* Party Type */}
+              <FormControl fullWidth margin="normal" required>
                 <InputLabel>Party Type</InputLabel>
                 <Select
                   value={partyDetails.party_type}
                   name="party_type"
                   onChange={handleChange}
                   label="Party Type"
+                  inputRef={partyTypeRef}
+                  onKeyDown={(e) => handleKeyDown(e, partyNameRef)}
                 >
                   <MenuItem value="Vendor">Vendor</MenuItem>
                   <MenuItem value="Supplier">Supplier</MenuItem>
@@ -128,6 +147,8 @@ export default function PartyReport() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={partyNameRef}
+                onKeyDown={(e) => handleKeyDown(e, partyRegNoRef)}
               />
 
               {/* Party Registration/GST Number */}
@@ -139,9 +160,9 @@ export default function PartyReport() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={partyRegNoRef}
+                onKeyDown={(e) => handleKeyDown(e, phoneRef)}
               />
-
-            
 
               {/* Phone Number */}
               <TextField
@@ -152,6 +173,8 @@ export default function PartyReport() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={phoneRef}
+                onKeyDown={(e) => handleKeyDown(e, emailRef)}
               />
 
               {/* Email */}
@@ -163,6 +186,8 @@ export default function PartyReport() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={emailRef}
+                onKeyDown={(e) => handleKeyDown(e, addressRef)}
               />
 
               {/* Address */}
@@ -176,6 +201,8 @@ export default function PartyReport() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={addressRef}
+                onKeyDown={(e) => handleKeyDown(e, descriptionRef)}
               />
 
               {/* Description */}
@@ -188,6 +215,7 @@ export default function PartyReport() {
                 value={partyDetails.description}
                 onChange={handleChange}
                 margin="normal"
+                inputRef={descriptionRef}
               />
             </form>
           </Paper>

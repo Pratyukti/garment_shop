@@ -210,8 +210,8 @@ export default function PurchaseVoucher() {
 
       {/* Dialog (Popup) Form for Adding or Editing Item Details */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>{editIndex !== null ? 'Edit Item' : 'Add Item'}</DialogTitle>
-        <DialogContent>
+        <DialogTitle style={{backgroundColor:'#f9dff5'}}>{editIndex !== null ? 'Edit Item' : 'Add Item'}</DialogTitle>
+        <DialogContent style={{backgroundColor:'#f9dff5'}}>
           {error && <Alert severity="error">{error}</Alert>}
           <TextField
             fullWidth
@@ -327,7 +327,11 @@ export default function PurchaseVoucher() {
             margin="normal"
           />
         </DialogContent>
+<<<<<<< HEAD
         <DialogActions>
+=======
+        <DialogActions style={{backgroundColor:'#f9dff5'}}>
+>>>>>>> b80ff4a547191d45174981cfb2a28f3b5172fa55
           <Button onClick={handleCloseDialog} color='error'>Cancel</Button>
           <Button onClick={handleSaveItem} color='secondary'>{editIndex !== null ? 'Update Item' : 'Add'}</Button>
         </DialogActions>
@@ -343,7 +347,11 @@ export default function PurchaseVoucher() {
           Are you sure you want to delete this item?
         </DialogContent>
         <DialogActions>
+<<<<<<< HEAD
           <Button onClick={handleCloseConfirmDialog}>Cancel</Button>
+=======
+          <Button onClick={handleCloseConfirmDialog}color='secondary'>Cancel</Button>
+>>>>>>> b80ff4a547191d45174981cfb2a28f3b5172fa55
           <Button onClick={handleConfirmDelete} color="error">
             Confirm
           </Button>
@@ -378,7 +386,11 @@ export default function PurchaseVoucher() {
                 <TableCell>{item.gst_amount.toFixed(2)}</TableCell>
                 <TableCell>{item.purchase_amount.toFixed(2)}</TableCell>
                 <TableCell>
+<<<<<<< HEAD
                   <IconButton color="primary" onClick={() => handleOpenDialog(index)}>
+=======
+                  <IconButton color="secondary" onClick={() => handleOpenDialog(index)}>
+>>>>>>> b80ff4a547191d45174981cfb2a28f3b5172fa55
                     <EditIcon />
                   </IconButton>
                   <IconButton color="error" onClick={() => handleOpenConfirmDialog(index)}>

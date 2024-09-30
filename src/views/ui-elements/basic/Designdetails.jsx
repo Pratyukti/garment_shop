@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   TextField, Button, Box, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, MenuItem, Select, InputLabel, FormControl
@@ -13,17 +13,20 @@ export default function DesignReport() {
     associated_items: ''
   });
 
-  const [designList, setDesignList] = useState([]); // List to hold all design entries
+  const [designList, setDesignList] = useState([]);
   const [items] = useState([
     { id: 1, name: 'Item 1' },
     { id: 2, name: 'Item 2' },
     { id: 3, name: 'Item 3' }
-  ]); // Example items for Associated Items dropdown
+  ]);
   const [loading, setLoading] = useState({ add: false });
-  const [open, setOpen] = useState(false); // State to control dialog visibility
-  const [editIndex, setEditIndex] = useState(null); // Track index of the design being edited
-  const [confirmOpen, setConfirmOpen] = useState(false); // State for delete confirmation dialog
-  const [deleteIndex, setDeleteIndex] = useState(null); // Index of the design to be deleted
+  const [open, setOpen] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(null);
+
+  // Create refs for each field
+  const fieldRefs = useRef([]);
 
   const handleChange = (e) => {
     setDesignDetails({
@@ -33,12 +36,12 @@ export default function DesignReport() {
   };
 
   const handleClickOpen = () => {
-    setOpen(true); // Open the dialog when "Add Design" button is clicked
-    setEditIndex(null); // Reset the edit index
+    setOpen(true);
+    setEditIndex(null);
   };
 
   const handleClose = () => {
-    setOpen(false); // Close the dialog when "Cancel" button is clicked
+    setOpen(false);
   };
 
   const handleAddOrUpdate = async (e) => {
@@ -46,18 +49,15 @@ export default function DesignReport() {
     setLoading({ ...loading, add: true });
 
     if (editIndex !== null) {
-      // Update logic
       const updatedList = [...designList];
       updatedList[editIndex] = designDetails;
       setDesignList(updatedList);
       console.log("Updated", designDetails);
     } else {
-      // Add logic
       setDesignList([...designList, designDetails]);
       console.log("Added", designDetails);
     }
 
-    // Reset the form and state
     setLoading({ ...loading, add: false });
     setDesignDetails({
       design_name: '',
@@ -65,41 +65,51 @@ export default function DesignReport() {
       description: '',
       associated_items: ''
     });
-    setOpen(false); // Close the dialog after adding or updating
+    setOpen(false);
   };
 
   const handleEdit = (index) => {
-    setDesignDetails(designList[index]); // Populate form with the selected design's details
-    setEditIndex(index); // Set the index of the design being edited
-    setOpen(true); // Open the dialog to edit
+    setDesignDetails(designList[index]);
+    setEditIndex(index);
+    setOpen(true);
   };
 
   const handleDeleteClick = (index) => {
-    setDeleteIndex(index); // Set the index of the design to be deleted
-    setConfirmOpen(true); // Open the confirmation dialog
+    setDeleteIndex(index);
+    setConfirmOpen(true);
   };
 
   const handleDeleteConfirm = () => {
-    const updatedList = designList.filter((_, i) => i !== deleteIndex); // Remove the selected design
+    const updatedList = designList.filter((_, i) => i !== deleteIndex);
     setDesignList(updatedList);
-    setConfirmOpen(false); // Close confirmation dialog
+    setConfirmOpen(false);
     console.log("Deleted design at index", deleteIndex);
   };
 
   const handleDeleteCancel = () => {
-    setConfirmOpen(false); // Close the confirmation dialog without deleting
+    setConfirmOpen(false);
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const nextIndex = index + 1;
+      if (fieldRefs.current[nextIndex]) {
+        fieldRefs.current[nextIndex].focus();
+      }
+    }
   };
 
   return (
     <Box sx={{ maxWidth: '100%', padding: 2 }}>
-      {/* Add Design Button */}
       <Button variant="contained" color="secondary" onClick={handleClickOpen}>
         {editIndex !== null ? 'Edit Design' : 'Add Design'}
       </Button>
 
-      {/* Dialog (Popup) Form */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle style={{ backgroundColor: '#f9dff5' }}>{editIndex !== null ? 'Edit Design Details' : 'Add Design Details'}</DialogTitle>
+        <DialogTitle style={{ backgroundColor: '#f9dff5' }}>
+          {editIndex !== null ? 'Edit Design Details' : 'Add Design Details'}
+        </DialogTitle>
         <DialogContent style={{ backgroundColor: '#f9dff5' }}>
           <Paper sx={{ padding: "10px", backgroundColor: "#f9dff5" }} elevation={0}>
             <form>
@@ -111,6 +121,8 @@ export default function DesignReport() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={el => (fieldRefs.current[0] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 0)}
               />
               <TextField
                 fullWidth
@@ -120,6 +132,8 @@ export default function DesignReport() {
                 onChange={handleChange}
                 margin="normal"
                 required
+                inputRef={el => (fieldRefs.current[1] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 1)}
               />
               <FormControl fullWidth margin="normal" required>
                 <InputLabel>Associated Items</InputLabel>
@@ -128,6 +142,8 @@ export default function DesignReport() {
                   name="associated_items"
                   onChange={handleChange}
                   label="Associated Items"
+                  inputRef={el => (fieldRefs.current[2] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, 2)}
                 >
                   {items.map(item => (
                     <MenuItem key={item.id} value={item.name}>
@@ -145,6 +161,8 @@ export default function DesignReport() {
                 value={designDetails.description}
                 onChange={handleChange}
                 margin="normal"
+                inputRef={el => (fieldRefs.current[3] = el)}
+                onKeyDown={(e) => handleKeyDown(e, 3)}
               />
             </form>
           </Paper>
@@ -159,7 +177,6 @@ export default function DesignReport() {
         </DialogActions>
       </Dialog>
 
-      {/* Confirmation Dialog for Delete */}
       <Dialog open={confirmOpen} onClose={handleDeleteCancel}>
         <DialogTitle>Delete Confirmation</DialogTitle>
         <DialogContent>Are you sure to delete?</DialogContent>
@@ -173,7 +190,6 @@ export default function DesignReport() {
         </DialogActions>
       </Dialog>
 
-      {/* Table to Display Design Details */}
       <TableContainer component={Paper} sx={{ marginTop: 3 }}>
         <Table>
           <TableHead>

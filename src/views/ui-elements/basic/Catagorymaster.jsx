@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useRef } from 'react';
 import { TextField, Button, Box, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, DialogContentText } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 
@@ -15,6 +16,10 @@ export default function SimplePaper() {
   const [editIndex, setEditIndex] = useState(null); // Track index of the category being edited
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // Control delete confirmation dialog
   const [deleteIndex, setDeleteIndex] = useState(null); // Track index to be deleted
+
+  const nameRef = useRef(null);
+  const codeRef = useRef(null);
+  const descriptionRef = useRef(null);
 
   const handleChange = (e) => {
     setCategoryDetails({
@@ -80,6 +85,13 @@ export default function SimplePaper() {
     setDeleteDialogOpen(false);  // Close delete confirmation without deleting
   };
 
+  const handleKeyDown = (e, nextRef) => {
+    if (e.key === 'Enter' && nextRef.current) {
+      e.preventDefault(); // Prevent form submission
+      nextRef.current.focus(); // Focus the next field
+    }
+  };
+
   return (
     <Box sx={{ maxWidth: '100%', padding: 2 }}>
       {/* Add Category Button */}
@@ -101,6 +113,8 @@ export default function SimplePaper() {
                 name="category_name"
                 value={categoryDetails.category_name}
                 onChange={handleChange}
+                onKeyDown={(e) => handleKeyDown(e, codeRef)}
+                inputRef={nameRef}
                 margin="normal"
                 required
               />
@@ -110,6 +124,8 @@ export default function SimplePaper() {
                 name="category_code"
                 value={categoryDetails.category_code}
                 onChange={handleChange}
+                onKeyDown={(e) => handleKeyDown(e, descriptionRef)}
+                inputRef={codeRef}
                 margin="normal"
                 required
               />
@@ -121,6 +137,8 @@ export default function SimplePaper() {
                 name="description"
                 value={categoryDetails.description}
                 onChange={handleChange}
+                onKeyDown={(e) => handleKeyDown(e, null)} // No next field
+                inputRef={descriptionRef}
                 margin="normal"
               />
             </form>
@@ -172,7 +190,7 @@ export default function SimplePaper() {
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete ? 
+            Are you sure you want to delete?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
