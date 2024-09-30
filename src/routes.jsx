@@ -259,7 +259,6 @@ const routes = [
       },
       {
         exact: 'true',
-<<<<<<<<< Temporary merge branch 1
         path: '/reports/salesreports',
         element: lazy(() => import('./views/reports/salesreports'))
       },
@@ -270,27 +269,15 @@ const routes = [
       },
       {
         exact: 'true',
+        path: '/reports/salesreports',
+        element: lazy(() => import('./views/reports/salesreports'))
+      },
+      
+      
+      {
+        exact: 'true',
         path: '/reports/stockreport',
         element: lazy(() => import('./views/reports/StockReport'))
-=========
-        path: '/sale/bulksalereturn',
-        element: lazy(() => import('./views/sale/Bulksalereturn'))
-      },
-      {
-        exact: 'true',
-        path: '/report/bulksalereport',
-        element: lazy(() => import('./views/report/Bulksalereport'))
-      },
-      {
-        exact: 'true',
-        path: '/tables/bootstrap',
-        element: lazy(() => import('./views/tables/BootstrapTable'))
->>>>>>>>> Temporary merge branch 2
-      },
-      {
-        exact: 'true',
-        path: '/reports/customerreport',
-        element: lazy(() => import('./views/reports/Customerreport'))
       },
       {
         exact: 'true',
