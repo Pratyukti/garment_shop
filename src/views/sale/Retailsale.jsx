@@ -19,7 +19,8 @@ export default function RetailSale() {
     tax: '',
     discount: '',
     totalPrice: '',
-    paymentMethod: 'Cash',
+    paymentMethod1: 'Cash',
+    paymentMethod2: 'UPI',
     narration: ''
   });
 
@@ -142,7 +143,8 @@ export default function RetailSale() {
   
           <div class="section">
             <h2>Payment and Narration</h2>
-            <p><strong>Payment Method:</strong> ${formData.paymentMethod}</p>
+            <p><strong>Payment Method1:</strong> ${formData.paymentMethod1}</p>
+            <p><strong>Payment Method2:</strong> ${formData.paymentMethod2}</p>
             <p><strong>Narration:</strong> ${formData.narration}</p>
           </div>
   
@@ -341,12 +343,25 @@ export default function RetailSale() {
             <Grid item xs={12} md={6}>
               <Typography variant="subtitle1" gutterBottom color="textPrimary">Payment and Narration</Typography>
               <FormControl fullWidth margin="normal" variant="outlined">
-                <InputLabel>Payment Method</InputLabel>
+                <InputLabel>Payment Method1</InputLabel>
                 <Select
-                  name="paymentMethod"
+                  name="paymentMethod1"
                   value={formData.paymentMethod}
                   onChange={handleChange}
-                  label="Payment Method"
+                  label="Payment Method1"
+                >
+                  <MenuItem value="Cash">Cash</MenuItem>
+                  <MenuItem value="Credit Card">Credit Card</MenuItem>
+                  <MenuItem value="Debit Card">Debit Card</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth margin="normal" variant="outlined">
+                <InputLabel>Payment Method2</InputLabel>
+                <Select
+                  name="paymentMethod2"
+                  value={formData.paymentMethod}
+                  onChange={handleChange}
+                  label="Payment Method2"
                 >
                   <MenuItem value="Cash">Cash</MenuItem>
                   <MenuItem value="Credit Card">Credit Card</MenuItem>

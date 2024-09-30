@@ -17,11 +17,7 @@
     "@mui/icons-material": "^6.0.2",
     "@mui/material": "^6.1.1",
     "@mui/x-data-grid": "^7.17.0",
-<<<<<<< HEAD
     "@mui/x-date-pickers": "^7.18.0",
-=======
-    "@mui/x-date-pickers": "^7.17.0",
->>>>>>> e1a2f08e5521098b482e0e3e4716569af241c991
     "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@react-google-maps/api": "^2.19.3",
     "@tanem/react-nprogress": "^5.0.51",
@@ -32,8 +28,9 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "chance": "^1.1.11",
+    "chart.js": "^4.4.4",
     "d3": "^7.9.0",
-    "date-fns": "^4.1.0",
+    "date-fns": "^3.2.0",
     "dayjs": "^1.11.13",
     "formik": "^2.4.5",
     "jquery": "^3.7.1",
@@ -42,6 +39,7 @@
     "process": "^0.11.10",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
+    "react-chartjs-2": "^5.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-datepicker": "^7.3.0",
     "react-dom": "^18.2.0",

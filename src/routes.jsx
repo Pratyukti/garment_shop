@@ -259,20 +259,11 @@ const routes = [
       },
       {
         exact: 'true',
-<<<<<<< HEAD
         path: '/sale/bulksalereturn',
         element: lazy(() => import('./views/sale/Bulksalereturn'))
       },
       {
         exact: 'true',
-        path: '/report/bulksalereport',
-        element: lazy(() => import('./views/report/Bulksalereport'))
-      },
-      {
-        exact: 'true',
-        path: '/tables/bootstrap',
-        element: lazy(() => import('./views/tables/BootstrapTable'))
-=======
         path: '/reports/salesreports',
         element: lazy(() => import('./views/reports/salesreports'))
       },
@@ -283,24 +274,30 @@ const routes = [
       },
       {
         exact: 'true',
+        path: '/reports/salesreports',
+        element: lazy(() => import('./views/reports/salesreports'))
+      },
+      
+      
+      {
+        exact: 'true',
         path: '/reports/stockreport',
         element: lazy(() => import('./views/reports/StockReport'))
->>>>>>> e1a2f08e5521098b482e0e3e4716569af241c991
       },
       {
         exact: 'true',
-        path: '/charts/nvd3',
-        element: lazy(() => import('./views/charts/nvd3-chart'))
+        path: '/reports/discountreport',
+        element: lazy(() => import('./views/reports/Discountreport'))
       },
       {
         exact: 'true',
-        path: '/maps/google-map',
-        element: lazy(() => import('./views/maps/GoogleMaps'))
+        path: '/reports/customerreport',
+        element: lazy(() => import('./views/reports/Customerreport'))
       },
       {
         exact: 'true',
-        path: '/sample-page',
-        element: lazy(() => import('./views/extra/SamplePage'))
+        path: '/reports/itemwisereport',
+        element: lazy(() => import('./views/reports/itemwishreport'))
       },
       
       {

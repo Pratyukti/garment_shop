@@ -402,29 +402,24 @@ const menuItems = {
               type: 'item',
               url: '/reports/stockreport'
             },
-            {
-              id: 'breadcrumb',
-              title: 'Stock Report',
-              type: 'item',
-              url: '/basic/breadcrumb-paging'
-            },
+            
             {
               id: 'breadcrumb',
               title: 'Discount Report',
               type: 'item',
-              url: '/basic/breadcrumb-paging'
+              url: '/reports/discountreport'
             },
             {
               id: 'collapse',
               title: 'Customer Report',
               type: 'item',
-              url: '/basic/collapse'
+              url: '/reports/customerreport'
             },
             {
               id: 'tabs-pills',
               title: 'Item Report',
               type: 'item',
-              url: '/basic/tabs-pills'
+              url: '/reports/itemwisereport'
             },
             {
               id: 'typography',
@@ -436,7 +431,7 @@ const menuItems = {
               id: 'typography',
               title: 'Bulk Sale Report',
               type: 'item',
-              url: '/report/bulksalereport'
+              url: ''
             }
           ]
         }
