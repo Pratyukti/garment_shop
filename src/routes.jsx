@@ -259,6 +259,7 @@ const routes = [
       },
       {
         exact: 'true',
+<<<<<<<<< Temporary merge branch 1
         path: '/reports/salesreports',
         element: lazy(() => import('./views/reports/salesreports'))
       },
@@ -271,21 +272,30 @@ const routes = [
         exact: 'true',
         path: '/reports/stockreport',
         element: lazy(() => import('./views/reports/StockReport'))
+=========
+        path: '/sale/bulksalereturn',
+        element: lazy(() => import('./views/sale/Bulksalereturn'))
       },
       {
         exact: 'true',
-        path: '/charts/nvd3',
-        element: lazy(() => import('./views/charts/nvd3-chart'))
+        path: '/report/bulksalereport',
+        element: lazy(() => import('./views/report/Bulksalereport'))
       },
       {
         exact: 'true',
-        path: '/maps/google-map',
-        element: lazy(() => import('./views/maps/GoogleMaps'))
+        path: '/tables/bootstrap',
+        element: lazy(() => import('./views/tables/BootstrapTable'))
+>>>>>>>>> Temporary merge branch 2
       },
       {
         exact: 'true',
-        path: '/sample-page',
-        element: lazy(() => import('./views/extra/SamplePage'))
+        path: '/reports/customerreport',
+        element: lazy(() => import('./views/reports/Customerreport'))
+      },
+      {
+        exact: 'true',
+        path: '/reports/itemwisereport',
+        element: lazy(() => import('./views/reports/itemwishreport'))
       },
       
       {

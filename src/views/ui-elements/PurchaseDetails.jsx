@@ -328,10 +328,14 @@ export default function PurchaseVoucher() {
           />
         </DialogContent>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <DialogActions>
 =======
         <DialogActions style={{backgroundColor:'#f9dff5'}}>
 >>>>>>> b80ff4a547191d45174981cfb2a28f3b5172fa55
+=======
+        <DialogActions style={{backgroundColor:'#f9dff5'}}>
+>>>>>>> 8c2a130956fc36ad111011b5d3887ecb75e94f74
           <Button onClick={handleCloseDialog} color='error'>Cancel</Button>
           <Button onClick={handleSaveItem} color='secondary'>{editIndex !== null ? 'Update Item' : 'Add'}</Button>
         </DialogActions>
@@ -348,10 +352,14 @@ export default function PurchaseVoucher() {
         </DialogContent>
         <DialogActions>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <Button onClick={handleCloseConfirmDialog}>Cancel</Button>
 =======
           <Button onClick={handleCloseConfirmDialog}color='secondary'>Cancel</Button>
 >>>>>>> b80ff4a547191d45174981cfb2a28f3b5172fa55
+=======
+          <Button onClick={handleCloseConfirmDialog}color='secondary'>Cancel</Button>
+>>>>>>> 8c2a130956fc36ad111011b5d3887ecb75e94f74
           <Button onClick={handleConfirmDelete} color="error">
             Confirm
           </Button>
@@ -387,10 +395,14 @@ export default function PurchaseVoucher() {
                 <TableCell>{item.purchase_amount.toFixed(2)}</TableCell>
                 <TableCell>
 <<<<<<< HEAD
+<<<<<<< HEAD
                   <IconButton color="primary" onClick={() => handleOpenDialog(index)}>
 =======
                   <IconButton color="secondary" onClick={() => handleOpenDialog(index)}>
 >>>>>>> b80ff4a547191d45174981cfb2a28f3b5172fa55
+=======
+                  <IconButton color="secondary" onClick={() => handleOpenDialog(index)}>
+>>>>>>> 8c2a130956fc36ad111011b5d3887ecb75e94f74
                     <EditIcon />
                   </IconButton>
                   <IconButton color="error" onClick={() => handleOpenConfirmDialog(index)}>

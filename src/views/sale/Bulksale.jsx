@@ -21,7 +21,8 @@ export default function RetailSaleWithSMS() {
     tax: '',
     discount: '',
     totalPrice: '',
-    paymentMethod: 'Cash',
+    paymentMethod1: 'Cash',
+    paymentMethod2: 'UPI',
     narration: ''
   });
 
@@ -194,7 +195,8 @@ export default function RetailSaleWithSMS() {
           <!-- Payment and Narration -->
           <div class="section">
             <h2>Payment and Narration</h2>
-            <p><strong>Payment Method:</strong> ${formData.paymentMethod}</p>
+            <p><strong>Payment Method1:</strong> ${formData.paymentMethod1}</p>
+            <p><strong>Payment Method2:</strong> ${formData.paymentMethod2}</p>
             <p><strong>Narration:</strong> ${formData.narration}</p>
           </div>
   
@@ -406,12 +408,12 @@ export default function RetailSaleWithSMS() {
             
             <Grid item xs={10} md={6}>
               <FormControl fullWidth margin="normal" variant="outlined">
-                <InputLabel>Payment Method</InputLabel>
+                <InputLabel>Payment Method1</InputLabel>
                 <Select
                   name="paymentMethod"
                   value={formData.paymentMethod}
                   onChange={handleChange}
-                  label="Payment Method"
+                  label="Payment Method1"
                   onKeyDown={(e) => handleKeyPress(e, document.getElementById('narration'))}
                 >
                   <MenuItem value="Cash">Cash</MenuItem>
@@ -419,6 +421,21 @@ export default function RetailSaleWithSMS() {
                   <MenuItem value="Debit">Debit</MenuItem>
                 </Select>
               </FormControl>
+              <FormControl fullWidth margin="normal" variant="outlined">
+                <InputLabel>Payment Method2</InputLabel>
+                <Select
+                  name="paymentMethod"
+                  value={formData.paymentMethod}
+                  onChange={handleChange}
+                  label="Payment Method2"
+                  onKeyDown={(e) => handleKeyPress(e, document.getElementById('narration'))}
+                >
+                  <MenuItem value="Cash">Cash</MenuItem>
+                  <MenuItem value="Credit">Credit</MenuItem>
+                  <MenuItem value="Debit">Debit</MenuItem>
+                </Select>
+              </FormControl>
+              
               <TextField
                 id="narration"
                 fullWidth
