@@ -241,7 +241,7 @@ const ItemSalesReport = () => {
 
         {filteredData.length > 0 && (
           <>
-            <TableContainer sx={{ maxHeight: 400 }}>
+            <TableContainer sx={{ maxHeight: 400 ,border:'2px solid purple',backgroundColor:'#fff'}}>
               <Table stickyHeader>
                 <TableHead>
                   <TableRow>

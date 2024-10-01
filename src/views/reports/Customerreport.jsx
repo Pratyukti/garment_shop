@@ -212,7 +212,7 @@ const CustomerReport = () => {
           <>
             <TableContainer
               component={Paper}
-              sx={{ marginTop: 4, backgroundColor: '#f4c4ec' }}
+              sx={{ marginTop: 4,border:'2px solid purple' }}
             >
               <Table>
                 <TableHead>

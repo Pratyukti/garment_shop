@@ -192,7 +192,7 @@ const SalesReports = () => {
         {/* Report Table */}
         {sortedData.length > 0 && (
           <>
-            <TableContainer component={Paper} sx={{ marginTop: 4 ,backgroundColor:'#f4c4ec'}}>
+            <TableContainer component={Paper} sx={{ marginTop: 4 ,border:'2px solid purple'}}>
               <Table>
                 <TableHead>
                   <TableRow>
